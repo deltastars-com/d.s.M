@@ -1,0 +1,26 @@
+{
+  "total_products": 1,
+  "categories": {
+    "فواكه": 1
+  },
+  "price_stats": {
+    "فواكه": {
+      "min": 32.0,
+      "max": 32.0,
+      "avg": 32.0
+    }
+  },
+  "products": [
+    {
+      "id": 1,
+      "original_id": 220,
+      "name_en": "Peach Fresh USA",
+      "name_ar": "خوخ طازج أمريكي",
+      "category": "فواكه",
+      "unit": "1000G",
+      "price": 32.0,
+      "image": "",
+      "stock": 100
+    }
+  ]
+}

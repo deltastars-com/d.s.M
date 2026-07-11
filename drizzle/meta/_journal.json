@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1764201491881,
+      "tag": "0000_spicy_betty_ross",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1764201583021,
+      "tag": "0001_closed_steel_serpent",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1764549913955,
+      "tag": "0002_awesome_malice",
+      "breakpoints": true
+    }
+  ]
+}

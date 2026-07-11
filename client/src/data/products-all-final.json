@@ -1,0 +1,939 @@
+{
+  "total_products": 90,
+  "categories": {
+    "فواكه": 30,
+    "خضروات": 42,
+    "أخرى": 12,
+    "أعشاب": 5,
+    "بيض": 1
+  },
+  "price_stats": {
+    "فواكه": {
+      "min": 3.5,
+      "max": 20.0,
+      "avg": 10.433333333333334
+    },
+    "خضروات": {
+      "min": 1.5,
+      "max": 25.0,
+      "avg": 7.7023809523809526
+    },
+    "أخرى": {
+      "min": 1.5,
+      "max": 185.0,
+      "avg": 25.458333333333332
+    },
+    "أعشاب": {
+      "min": 1.5,
+      "max": 20.0,
+      "avg": 5.2
+    },
+    "بيض": {
+      "min": 1.5,
+      "max": 1.5,
+      "avg": 1.5
+    }
+  },
+  "products": [
+    {
+      "id": 1,
+      "name_en": "Apple Gala  1000 G",
+      "name_ar": "تفاح سكري",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 7.0,
+      "image": "https://drive.google.com/uc?export=view&id=14raaz2yPcxGv4PLTCxyA2SqNDXJikXoi",
+      "stock": 100
+    },
+    {
+      "id": 2,
+      "name_en": "Apple Green 1000 G",
+      "name_ar": "تفاح اخضر",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 7.0,
+      "image": "https://drive.google.com/uc?export=view&id=1x_4VWYYveuiwJtVdfNLReIithJO2JzGI",
+      "stock": 100
+    },
+    {
+      "id": 3,
+      "name_en": "Apple Red 1000 G",
+      "name_ar": "تفاح احمر",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 7.5,
+      "image": "https://drive.google.com/uc?export=view&id=1s3WUV0dJ_3GYKa7_XV7BeTKfzl1iq__b",
+      "stock": 100
+    },
+    {
+      "id": 4,
+      "name_en": "Apple Yellow 1000 G",
+      "name_ar": "تفاح اصفر",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 7.0,
+      "image": "https://drive.google.com/uc?export=view&id=1JTO_fu2XlCN3-wFNV3OuN-SOPDgnGKUK",
+      "stock": 100
+    },
+    {
+      "id": 5,
+      "name_en": "Apricot 1000 G",
+      "name_ar": "مشمش",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 16.0,
+      "image": "https://drive.google.com/uc?export=view&id=1nGeZ4RDnJ-P-n30KM3JUgZFEy2hbHXE3",
+      "stock": 100
+    },
+    {
+      "id": 6,
+      "name_en": "Arabic leeks (Kurath)",
+      "name_ar": "كراث",
+      "category": "خضروات",
+      "unit": "pc",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1bYMbxIhe8e1kSLSR24DCxhF9YCCBk5UX",
+      "stock": 100
+    },
+    {
+      "id": 7,
+      "name_en": "Banana 1000 G",
+      "name_ar": "موز",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 6.5,
+      "image": "https://drive.google.com/uc?export=view&id=1C4X6hYllVzFnei9q-pGR5ET3GzCmN8hc",
+      "stock": 100
+    },
+    {
+      "id": 8,
+      "name_en": "Beans Green  Fresh 1000 G",
+      "name_ar": "فاصوليا خضراء",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 8.0,
+      "image": "https://drive.google.com/uc?export=view&id=1hOScKwXU6b7Z7xPVst4u3oBCHfTRbRGc",
+      "stock": 100
+    },
+    {
+      "id": 9,
+      "name_en": "Beet Root Local 1000 G",
+      "name_ar": "بنجر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 5.0,
+      "image": "https://drive.google.com/uc?export=view&id=1t5GnOEdjJX6RB4E2gxUoTQ8ceEix_LLt",
+      "stock": 100
+    },
+    {
+      "id": 10,
+      "name_en": "Bell Pepper Green 1000 G LOCAL",
+      "name_ar": "رومي اخضر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 6.0,
+      "image": "https://drive.google.com/uc?export=view&id=1cw_hNecLBH1l-QqW26K18rR77Amz7hd3",
+      "stock": 100
+    },
+    {
+      "id": 11,
+      "name_en": "Bell Pepper Red 1000 G LOCAL",
+      "name_ar": "رومي احمر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 8.0,
+      "image": "https://drive.google.com/uc?export=view&id=1g_Ymd4KHPMyhlgtJzUCVoxaCw8Qgk29_",
+      "stock": 100
+    },
+    {
+      "id": 12,
+      "name_en": "Bell pepper Yellow 1000 G LOCAL",
+      "name_ar": "رومي اصفر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 8.0,
+      "image": "https://drive.google.com/uc?export=view&id=1HWgl4vQ7-yyD13LJH9Leyi7ZmOmZo8fb",
+      "stock": 100
+    },
+    {
+      "id": 13,
+      "name_en": "Bitter Gourd (karela) 1000 G",
+      "name_ar": "كرلا",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 6.5,
+      "image": "https://drive.google.com/uc?export=view&id=1NAapL0Lss9vg4VqST9-BbdmHZDZ3QChT",
+      "stock": 100
+    },
+    {
+      "id": 14,
+      "name_en": "Broccoli Local 1000 G",
+      "name_ar": "بركلي",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 16.0,
+      "image": "https://drive.google.com/uc?export=view&id=1H1hPMaQrc4fHZJpypn8k3W8r1x4RPoOg",
+      "stock": 100
+    },
+    {
+      "id": 15,
+      "name_en": "Cabbage Red Local 1000 G",
+      "name_ar": "ملفوف احمر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 4.5,
+      "image": "https://drive.google.com/uc?export=view&id=1GmaS_f37r1vSWu_rrhSi71YWPH5I41Gr",
+      "stock": 100
+    },
+    {
+      "id": 16,
+      "name_en": "Cactus Pears Seasonal Fruit KSA 1000 G",
+      "name_ar": "تين شوكي",
+      "category": "أخرى",
+      "unit": "Kg",
+      "price": 13.0,
+      "image": "https://drive.google.com/uc?export=view&id=1dt0lqZGWz7JdY5dYlR1tLaXA3VQADP61",
+      "stock": 100
+    },
+    {
+      "id": 17,
+      "name_en": "Carrot 1000 G",
+      "name_ar": "جزر محلي",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 4.5,
+      "image": "https://drive.google.com/uc?export=view&id=1qKdTHTwWcqymmJfubyR5iD2ZCXQATDdk",
+      "stock": 100
+    },
+    {
+      "id": 18,
+      "name_en": "Califlower 1000 G",
+      "name_ar": "زهرة",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 7.0,
+      "image": "https://drive.google.com/uc?export=view&id=1-LRmks22xtvxe0-g8WMk17KJeGBLsYRV",
+      "stock": 100
+    },
+    {
+      "id": 19,
+      "name_en": "Celery Green Local 1000 G",
+      "name_ar": "كرفس محلي",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 18.0,
+      "image": "https://drive.google.com/uc?export=view&id=18t3pyZ33bNvPuKs65FV3kow14PIzVrg-",
+      "stock": 100
+    },
+    {
+      "id": 20,
+      "name_en": "Chilli Green Local 1000 G",
+      "name_ar": "فلفل حار اخضر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 9.0,
+      "image": "https://drive.google.com/uc?export=view&id=1qz9eE3COufpOQ5HjRVpP82RSuv8LmPF4",
+      "stock": 100
+    },
+    {
+      "id": 21,
+      "name_en": "Chilli Red Hot Local 1000 G",
+      "name_ar": "فلفل حار احمر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 8.0,
+      "image": "https://drive.google.com/uc?export=view&id=1D_QtXdvpAHh0VtWCGs69Jvk8TSd-ltIh",
+      "stock": 100
+    },
+    {
+      "id": 22,
+      "name_en": "Coconut Brown Husked Fresh 1000 G",
+      "name_ar": "جوز الهند",
+      "category": "أخرى",
+      "unit": "pc",
+      "price": 8.0,
+      "image": "https://drive.google.com/uc?export=view&id=1qjJ9mY4Cv2xWKR1cAqX5TajU4TWe-eH-",
+      "stock": 100
+    },
+    {
+      "id": 23,
+      "name_en": "Coriander Leaves 1000 G",
+      "name_ar": "كزبرة",
+      "category": "أعشاب",
+      "unit": "PC",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1fjr3r9Lr6ypvGFer_a_od4L1uUJXCp8c",
+      "stock": 100
+    },
+    {
+      "id": 24,
+      "name_en": "Cucumber 1000 G",
+      "name_ar": "خيار",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 4.5,
+      "image": "https://drive.google.com/uc?export=view&id=1JhtJga2yvkgH6E3GfMBVgwJMnyaCA0Aw",
+      "stock": 100
+    },
+    {
+      "id": 25,
+      "name_en": "Curry Leaves Imported 1000 G",
+      "name_ar": "أوراق الكاري",
+      "category": "أعشاب",
+      "unit": "Kg",
+      "price": 20.0,
+      "image": "https://drive.google.com/uc?export=view&id=1TzrKRmpeSHL2ZMZozNaqdPC3P4spN3Qj",
+      "stock": 100
+    },
+    {
+      "id": 26,
+      "name_en": "Custard Apples Fresh 1000 G",
+      "name_ar": "قشطة",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 11.0,
+      "image": "https://drive.google.com/uc?export=view&id=1FeNZd6hnZEfGUg_sCMQ-XPtwnVqj0ykB",
+      "stock": 100
+    },
+    {
+      "id": 27,
+      "name_en": "Dill Local 1000 G",
+      "name_ar": "شبت",
+      "category": "أعشاب",
+      "unit": "pc",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1hk_5XtN4qGlLlT6KdyEH67WIc_wcsMS6",
+      "stock": 100
+    },
+    {
+      "id": 28,
+      "name_en": "Drumstick Bengali Vegtable 1000 G",
+      "name_ar": "درام ستك",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 12.0,
+      "image": "https://drive.google.com/uc?export=view&id=1LnExAbab0tIGy8Yg22Mdw-OdIzo8F8VY",
+      "stock": 100
+    },
+    {
+      "id": 29,
+      "name_en": "Eggplant Big/Baby Local 1000 G",
+      "name_ar": "باذنجان اسود مدور وسط/صغير",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 3.5,
+      "image": "https://drive.google.com/uc?export=view&id=1fSgEKHdJaYF5IrQ2tHGel3Ttxujzj0W5",
+      "stock": 100
+    },
+    {
+      "id": 30,
+      "name_en": "Eggplant Long Local Fresh 1000 G",
+      "name_ar": "باذنجان طويل",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 5.0,
+      "image": "https://drive.google.com/uc?export=view&id=19n6xPGE2IA4576T60trPro2mHCxD_XNf",
+      "stock": 100
+    },
+    {
+      "id": 31,
+      "name_en": "Eggplant White Local Fresh 1000 G",
+      "name_ar": "باذنجان ابيض",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 4.0,
+      "image": "https://drive.google.com/uc?export=view&id=1Mu48BBY8ktaFOd07_zhY32lKRt_f3Zpw",
+      "stock": 100
+    },
+    {
+      "id": 32,
+      "name_en": "Figs Local 1000 G",
+      "name_ar": "تين محلي",
+      "category": "أخرى",
+      "unit": "Kg",
+      "price": 23.0,
+      "image": "https://drive.google.com/uc?export=view&id=1Y08cy9YH20Zt3GKqcBuuDKbHiHV3cVS_",
+      "stock": 100
+    },
+    {
+      "id": 33,
+      "name_en": "Garlic Peeled 1000 G",
+      "name_ar": "ثوم مقشر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 14.0,
+      "image": "https://drive.google.com/uc?export=view&id=12L4Qtfab22_9pddCxO5wiVk2lGrVW-Lp",
+      "stock": 100
+    },
+    {
+      "id": 34,
+      "name_en": "Garlic 1000 G",
+      "name_ar": "ثوم",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 10.0,
+      "image": "https://drive.google.com/uc?export=view&id=1U6fsvi67YgD-hioEQW-KIwNQRnHwi101",
+      "stock": 100
+    },
+    {
+      "id": 35,
+      "name_en": "Ginger 1000 G",
+      "name_ar": "زنجبيل",
+      "category": "أخرى",
+      "unit": "Kg",
+      "price": 9.0,
+      "image": "https://drive.google.com/uc?export=view&id=1p6KcNDSYbfaS1Sc6H9OgwEzHimixjk1H",
+      "stock": 100
+    },
+    {
+      "id": 36,
+      "name_en": "Grape Fruit 1000 G",
+      "name_ar": "جريب فروت",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 6.5,
+      "image": "https://drive.google.com/uc?export=view&id=1jg0W0AT8ym_DqP4Zo0NHLleYwhYHc_H4",
+      "stock": 100
+    },
+    {
+      "id": 37,
+      "name_en": "Grapes - Black Local 1000 G",
+      "name_ar": "عنب اسود",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 13.0,
+      "image": "https://drive.google.com/uc?export=view&id=1m8Ct2JMueZiw9j1hUooHfawox7xfIfS4",
+      "stock": 100
+    },
+    {
+      "id": 38,
+      "name_en": "Grapes - Green Local  1000 G",
+      "name_ar": "عنب اخضر",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 13.0,
+      "image": "https://drive.google.com/uc?export=view&id=1MRLb3gL9u3GYfvN8HyisIr3z-mPhafwV",
+      "stock": 100
+    },
+    {
+      "id": 39,
+      "name_en": "Grapes - Red Local  1000 G",
+      "name_ar": "عنب احمر",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 13.0,
+      "image": "https://drive.google.com/uc?export=view&id=1yZN_MuTkm923oIfqJJBGHJNdfuVTR8lb",
+      "stock": 100
+    },
+    {
+      "id": 40,
+      "name_en": "Grapes - White 1000 G",
+      "name_ar": "عنب ابيض",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 13.0,
+      "image": "https://drive.google.com/uc?export=view&id=1KCnKtWKgMYbfOvCHxrXdmEYC596omYvp",
+      "stock": 100
+    },
+    {
+      "id": 41,
+      "name_en": "Guava 1000 G",
+      "name_ar": "جوافة",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 9.0,
+      "image": "https://drive.google.com/uc?export=view&id=1TTr15bS8-sXbSdKbH0nsdW35z56K8R3R",
+      "stock": 100
+    },
+    {
+      "id": 42,
+      "name_en": "Jarjir 1000 G",
+      "name_ar": "جرجير",
+      "category": "خضروات",
+      "unit": "pc",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1R9j01inq7s3h741O18wGQS2uuSv2m4eA",
+      "stock": 100
+    },
+    {
+      "id": 43,
+      "name_en": "Kaka 1000 G",
+      "name_ar": "كاكا",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 18.0,
+      "image": "https://drive.google.com/uc?export=view&id=1eUM9auPELVzueEEq2Q9BvKBofulI5bLG",
+      "stock": 100
+    },
+    {
+      "id": 44,
+      "name_en": "Kiwi 1000 G",
+      "name_ar": "كيوي",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 12.0,
+      "image": "https://drive.google.com/uc?export=view&id=1QhH-IUdqWuh_HKjMkmnj6aAdedQWVA9p",
+      "stock": 100
+    },
+    {
+      "id": 45,
+      "name_en": "Ladyfinger Asian Vegetable 1000 G",
+      "name_ar": "بامية حجم الحبة صغير",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 12.0,
+      "image": "https://drive.google.com/uc?export=view&id=1uqaB1W2g_UmRs-A0DPAiArQMlz19e7ip",
+      "stock": 100
+    },
+    {
+      "id": 46,
+      "name_en": "Leeks Local 1000 G",
+      "name_ar": "ليك محلي",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 12.0,
+      "image": "https://drive.google.com/uc?export=view&id=1StFl7-uiJo8tqJPxPwdDZ1jj7bWCvo_P",
+      "stock": 100
+    },
+    {
+      "id": 47,
+      "name_en": "Lemon big Local 1000 G",
+      "name_ar": "ليمون",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 9.0,
+      "image": "https://drive.google.com/uc?export=view&id=1YxV_nDD5aF7p-6RoxaHKskOgDLb-tf0o",
+      "stock": 100
+    },
+    {
+      "id": 48,
+      "name_en": "Lemon Small 1000 G",
+      "name_ar": "ليمون صغير",
+      "category": "فواكه",
+      "unit": "pc",
+      "price": 4.0,
+      "image": "https://drive.google.com/uc?export=view&id=1pgMkqnLYzwlGmTa0zmKPUK5mfyeVYQYL",
+      "stock": 100
+    },
+    {
+      "id": 49,
+      "name_en": "Lettuce - Iceberg Imported Spain 1000 G",
+      "name_ar": "خس مدور مستورد اسباني",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 17.0,
+      "image": "https://drive.google.com/uc?export=view&id=1U6v8Sskgm4zacRwh3eeh7yMsnWgXFMWV",
+      "stock": 100
+    },
+    {
+      "id": 50,
+      "name_en": "Lettuce - Iceberg Local 1000 G",
+      "name_ar": "خس مدور",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 9.0,
+      "image": "https://drive.google.com/uc?export=view&id=1-epBe5ll3GgvZJXr-Hyg_kFiA6mkPoMg",
+      "stock": 100
+    },
+    {
+      "id": 51,
+      "name_en": "Lettuce - Romain Local Fresh 1000 G",
+      "name_ar": "خس طويل",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 7.0,
+      "image": "https://drive.google.com/uc?export=view&id=1UFeMZV90TR0L3qk6daEb1Y6tn7jUpyyq",
+      "stock": 100
+    },
+    {
+      "id": 52,
+      "name_en": "Lime Fresh Imported 1000 G Vietnam",
+      "name_ar": "ليم اخضر",
+      "category": "أخرى",
+      "unit": "Kg",
+      "price": 10.0,
+      "image": "https://drive.google.com/uc?export=view&id=1x7aQxFLoEEX7tJyhaRWN4DoXyF19_3Ec",
+      "stock": 100
+    },
+    {
+      "id": 53,
+      "name_en": "Mandarin 1000 G",
+      "name_ar": "افندي",
+      "category": "أخرى",
+      "unit": "Kg",
+      "price": 9.0,
+      "image": "https://drive.google.com/uc?export=view&id=1mmlL5LqKnLi56I1glw15wH619eNq54Gc",
+      "stock": 100
+    },
+    {
+      "id": 54,
+      "name_en": "Mango 1000 G",
+      "name_ar": "مانجو تيمور",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 18.0,
+      "image": "https://drive.google.com/uc?export=view&id=1dvg4dVcK-ic7Ite3y9oy0nOHU18N26a5",
+      "stock": 100
+    },
+    {
+      "id": 55,
+      "name_en": "Marrow / Courgette / Zucchini Local 1000 G",
+      "name_ar": "كوسة",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 6.0,
+      "image": "https://drive.google.com/uc?export=view&id=1WTPmEiSvnHG0RMBNf8nvvoQPPvlUInu4",
+      "stock": 100
+    },
+    {
+      "id": 56,
+      "name_en": "Melon Sweet  1000 G",
+      "name_ar": "شمام",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 3.5,
+      "image": "https://drive.google.com/uc?export=view&id=1pbZTRRiDU-cK25z0Eozh8qrB4nm83S7C",
+      "stock": 100
+    },
+    {
+      "id": 57,
+      "name_en": "Mint 1000 G",
+      "name_ar": "نعناع",
+      "category": "أعشاب",
+      "unit": "pc",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1QwEenpFIAm8AuREzqFXbfNeHhNZGIMC8",
+      "stock": 100
+    },
+    {
+      "id": 58,
+      "name_en": "Mulokhia 1000 G",
+      "name_ar": "ملوخية",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 6.0,
+      "image": "https://drive.google.com/uc?export=view&id=1zmu3BaIN2Txf3Jm9eUKp1vvGtrln9kfh",
+      "stock": 100
+    },
+    {
+      "id": 59,
+      "name_en": "Nectarine 1000 G LOCAL",
+      "name_ar": "نكتارين",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 16.0,
+      "image": "https://drive.google.com/uc?export=view&id=1XRHzpjwCBZ0PDC2mLf7aIzo1XuFAD7-m",
+      "stock": 100
+    },
+    {
+      "id": 60,
+      "name_en": "Okra 1000 G",
+      "name_ar": "بامية",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 15.0,
+      "image": "https://drive.google.com/uc?export=view&id=1UDFzcEUB2rFbXa6bXMjR-Mip7Jr1ztrR",
+      "stock": 100
+    },
+    {
+      "id": 61,
+      "name_en": "Onion Red 1000 G",
+      "name_ar": "بصل احمر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 3.5,
+      "image": "https://drive.google.com/uc?export=view&id=11MB2mjVjGgViYDbyGFvR5089nSASEPqs",
+      "stock": 100
+    },
+    {
+      "id": 62,
+      "name_en": "Onion Spring 1000 G",
+      "name_ar": "بصل اخضر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 4.5,
+      "image": "https://drive.google.com/uc?export=view&id=1bNJGWzpSVn3vi33b8IF7-tKPB1rX_1tT",
+      "stock": 100
+    },
+    {
+      "id": 63,
+      "name_en": "Onion White 1000 G",
+      "name_ar": "بصل ابيض",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 4.0,
+      "image": "https://drive.google.com/uc?export=view&id=1Ws82hzOGSWv5J2DstQnEe91m3URP-rKF",
+      "stock": 100
+    },
+    {
+      "id": 64,
+      "name_en": "Orange For Juice Fresh 1000 G",
+      "name_ar": "برتقال عصير",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 5.0,
+      "image": "https://drive.google.com/uc?export=view&id=1d9P8ZspAFZGGHBOqzbFMuEeoPJ23CYDI",
+      "stock": 100
+    },
+    {
+      "id": 65,
+      "name_en": "Orange Navel 1000 G",
+      "name_ar": "برتقال ابوصورة",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 7.0,
+      "image": "https://drive.google.com/uc?export=view&id=1FuPxF23o2TGy8jJOQmehoSiMMBLC7axK",
+      "stock": 100
+    },
+    {
+      "id": 66,
+      "name_en": "Papaya 1000 G",
+      "name_ar": "بابايـــا",
+      "category": "أخرى",
+      "unit": "Kg",
+      "price": 8.0,
+      "image": "https://drive.google.com/uc?export=view&id=1W0G6CDg6p7Io8J1SoyyHPRygjzSkyvgy",
+      "stock": 100
+    },
+    {
+      "id": 67,
+      "name_en": "Parsely - Local  1000 G",
+      "name_ar": "بقدونس",
+      "category": "أعشاب",
+      "unit": "pc",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1CjB7QJqY0XhCeUsNWyLZilIWULZmR46a",
+      "stock": 100
+    },
+    {
+      "id": 68,
+      "name_en": "Peach 1000 G",
+      "name_ar": "خوخ",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 13.0,
+      "image": "https://drive.google.com/uc?export=view&id=1n-FpDTvyy8FvqKyMhKw__ZAuy047F0Lj",
+      "stock": 100
+    },
+    {
+      "id": 69,
+      "name_en": "Pears Imported Fresh 1000 G",
+      "name_ar": "كمثرى",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 12.0,
+      "image": "https://drive.google.com/uc?export=view&id=1t4QlgPCc2lAKksrWTIBEKdtg6R3Uhg3E",
+      "stock": 100
+    },
+    {
+      "id": 70,
+      "name_en": "Pineapple - Baby 1000 G",
+      "name_ar": "اناناس بيبي",
+      "category": "أخرى",
+      "unit": "Kg",
+      "price": 25.0,
+      "image": "https://drive.google.com/uc?export=view&id=1U0K1fJf-54EveBzbS03wZoHmvOAP-taB",
+      "stock": 100
+    },
+    {
+      "id": 71,
+      "name_en": "Pineapple - Large 1000 G",
+      "name_ar": "اناناس",
+      "category": "أخرى",
+      "unit": "Kg",
+      "price": 10.0,
+      "image": "https://drive.google.com/uc?export=view&id=1WlTCFFbtHUKdtlFSuy7baJfoFWApF8w3",
+      "stock": 100
+    },
+    {
+      "id": 72,
+      "name_en": "Plums Black 1000 G",
+      "name_ar": "بخارة اسود",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 13.0,
+      "image": "https://drive.google.com/uc?export=view&id=1YU7Y8ARUoZ_8GwUrbHBBa47cqgz1HZbo",
+      "stock": 100
+    },
+    {
+      "id": 73,
+      "name_en": "Plums Red 1000 G",
+      "name_ar": "بخارة احمر",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 13.0,
+      "image": "https://drive.google.com/uc?export=view&id=1ur85ixAOPwTmEGr5_bq5KGJEx_9XRFvt",
+      "stock": 100
+    },
+    {
+      "id": 74,
+      "name_en": "Pomegranate 1000 G",
+      "name_ar": "رمان",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 13.0,
+      "image": "https://drive.google.com/uc?export=view&id=1PreacAGBSHSIqRqwr_dyqyCWTjDGEP31",
+      "stock": 100
+    },
+    {
+      "id": 75,
+      "name_en": "Potato Sweet  1000 G",
+      "name_ar": "بطــاطــا حــلوة",
+      "category": "أخرى",
+      "unit": "Kg",
+      "price": 4.0,
+      "image": "https://drive.google.com/uc?export=view&id=1n_Wghsdl4wk237X9CtauH2lwZ2GKVV8D",
+      "stock": 100
+    },
+    {
+      "id": 76,
+      "name_en": "Potato 1000 G",
+      "name_ar": "بطاطس",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 3.5,
+      "image": "https://drive.google.com/uc?export=view&id=1QYFqP7T0H6x3-JB8VncPxUPg0TWPQczL",
+      "stock": 100
+    },
+    {
+      "id": 77,
+      "name_en": "Pumpkin Green Long (Dubbah) 1000 G",
+      "name_ar": "قرع اخضر (دبة )",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 5.5,
+      "image": "https://drive.google.com/uc?export=view&id=1U9OwmB2ifAKEKWTZ_c90sKiUAXbzDseN",
+      "stock": 100
+    },
+    {
+      "id": 78,
+      "name_en": "Pumpkin  1000 G",
+      "name_ar": "قرع اصفر (عسلي )",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 5.5,
+      "image": "https://drive.google.com/uc?export=view&id=1vladnnXtMon8igxLBIxpsaUXAIz6yrNW",
+      "stock": 100
+    },
+    {
+      "id": 79,
+      "name_en": "Purslane Green (Rijla) 1000 G",
+      "name_ar": "رجلة",
+      "category": "خضروات",
+      "unit": "pc",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1r72L0hZLktqPXMQcEeB9X1FBXsJxIJiu",
+      "stock": 100
+    },
+    {
+      "id": 80,
+      "name_en": "Radish Red  1000 G",
+      "name_ar": "فجل احمر",
+      "category": "أخرى",
+      "unit": "pc",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1Fw9seQJTs1alziR4JFBMim3ICjFNVNWI",
+      "stock": 100
+    },
+    {
+      "id": 81,
+      "name_en": "Radish White 1000 G",
+      "name_ar": "فجل ابيض",
+      "category": "بيض",
+      "unit": "pc",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1n0BFoTWzoZ3wD6w5Hgmn9YAuKZKNqGU9",
+      "stock": 100
+    },
+    {
+      "id": 82,
+      "name_en": "Spinach Local 1000 G",
+      "name_ar": "سبانخ",
+      "category": "خضروات",
+      "unit": "pc",
+      "price": 1.5,
+      "image": "https://drive.google.com/uc?export=view&id=1YyOOkTC3yZjW7CWJXy9M6WVhIq6VEgI8",
+      "stock": 100
+    },
+    {
+      "id": 83,
+      "name_en": "Starwberry Fresh 1000 G",
+      "name_ar": "فراولة مصري",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 20.0,
+      "image": "https://drive.google.com/uc?export=view&id=1LKR78n2i8NdioZ1xGkoiOypzDFcREN2M",
+      "stock": 100
+    },
+    {
+      "id": 84,
+      "name_en": "Taro Root (Gulgas) 1000 G",
+      "name_ar": "قلقاس",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 12.0,
+      "image": "https://drive.google.com/uc?export=view&id=1-6uyGQ1qNuuS4hrIzrOuI-hRM-8POyhG",
+      "stock": 100
+    },
+    {
+      "id": 85,
+      "name_en": "Tomato Cherry Red Local 1000 G",
+      "name_ar": "طماطم شيري احمر",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 25.0,
+      "image": "https://drive.google.com/uc?export=view&id=16sJGKHB2z2tFZPYw7BSLoa4XOMgY41v-",
+      "stock": 100
+    },
+    {
+      "id": 86,
+      "name_en": "Tomato Red 1000 G",
+      "name_ar": "طماطم  مدور",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 5.0,
+      "image": "https://drive.google.com/uc?export=view&id=1MlXdxBjSj_H2FKzueCL65yfAxaBAm8Sn",
+      "stock": 100
+    },
+    {
+      "id": 87,
+      "name_en": "Turnip Fresh 1000 G",
+      "name_ar": "لفت",
+      "category": "خضروات",
+      "unit": "Kg",
+      "price": 3.5,
+      "image": "https://drive.google.com/uc?export=view&id=17_Ji2otpxPLWkmt5BBOpYgKwwh3D4Uyi",
+      "stock": 100
+    },
+    {
+      "id": 88,
+      "name_en": "Watemelon Long Local 1000 G",
+      "name_ar": "بطيخ طويل",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 3.5,
+      "image": "https://drive.google.com/uc?export=view&id=1lx7gktVg5LOmR5d0JYd3OOqacWL-Fr9r",
+      "stock": 100
+    },
+    {
+      "id": 89,
+      "name_en": "Watemelon Round Local 1000 G",
+      "name_ar": "بطيخ مدور",
+      "category": "فواكه",
+      "unit": "Kg",
+      "price": 3.5,
+      "image": "https://drive.google.com/uc?export=view&id=1dxf_OVjL8p6v7uNgvcXYaYIMGFkP1TJ0",
+      "stock": 100
+    },
+    {
+      "id": 90,
+      "name_en": "eggs Fresh algharbia sizeXL X12",
+      "name_ar": "بـيــــــض",
+      "category": "أخرى",
+      "unit": "BOX",
+      "price": 185.0,
+      "image": "https://drive.google.com/uc?export=view&id=1rTRylFNtpZA2kLnXd2-iABd8UIYaaLbd",
+      "stock": 100
+    }
+  ]
+}

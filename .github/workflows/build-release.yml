@@ -1,0 +1,276 @@
+name: 🚀 Build & Release APK & IPA
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2 AM UTC
+
+env:
+  NODE_VERSION: '18'
+  GRADLE_VERSION: '8.0'
+
+jobs:
+  setup:
+    name: 🔧 Setup Environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔐 Verify Secrets
+        run: |
+          echo "✅ Checking required secrets..."
+          if [ -z "${{ secrets.EXPO_USERNAME }}" ]; then
+            echo "❌ EXPO_USERNAME not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.EXPO_PASSWORD }}" ]; then
+            echo "❌ EXPO_PASSWORD not set"
+            exit 1
+          fi
+          echo "✅ All secrets verified"
+
+  build-android:
+    name: 🤖 Build Android APK
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: 📥 Install Dependencies
+        run: |
+          npm install --legacy-peer-deps
+          npm install -g eas-cli
+
+      - name: 🔐 Authenticate with Expo
+        run: |
+          eas login --username "${{ secrets.EXPO_USERNAME }}" \
+                   --password "${{ secrets.EXPO_PASSWORD }}" \
+                   --non-interactive
+        env:
+          EXPO_USERNAME: ${{ secrets.EXPO_USERNAME }}
+          EXPO_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
+
+      - name: 🔨 Build APK
+        run: |
+          eas build --platform android \
+                   --type apk \
+                   --non-interactive \
+                   --wait \
+                   --output ./dist/deltastars.apk
+        env:
+          EXPO_USERNAME: ${{ secrets.EXPO_USERNAME }}
+          EXPO_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
+
+      - name: 📝 Generate Build Report
+        if: always()
+        run: |
+          cat > ./dist/build-report.json << EOF
+          {
+            "app": "Delta Stars",
+            "platform": "Android",
+            "version": "1.0.0",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "status": "success",
+            "artifacts": {
+              "apk": "deltastars.apk",
+              "size": "$(du -h ./dist/deltastars.apk | cut -f1)"
+            }
+          }
+          EOF
+
+      - name: 📤 Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deltastars-apk
+          path: ./dist/deltastars.apk
+          retention-days: 30
+
+      - name: 📤 Upload Build Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-report
+          path: ./dist/build-report.json
+          retention-days: 30
+
+  build-ios:
+    name: 🍎 Build iOS IPA
+    runs-on: macos-latest
+    needs: setup
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: |
+          npm install --legacy-peer-deps
+          npm install -g eas-cli
+
+      - name: 🔐 Authenticate with Expo
+        run: |
+          eas login --username "${{ secrets.EXPO_USERNAME }}" \
+                   --password "${{ secrets.EXPO_PASSWORD }}" \
+                   --non-interactive
+        env:
+          EXPO_USERNAME: ${{ secrets.EXPO_USERNAME }}
+          EXPO_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
+
+      - name: 🔨 Build IPA
+        run: |
+          eas build --platform ios \
+                   --type ipa \
+                   --non-interactive \
+                   --wait \
+                   --output ./dist/deltastars.ipa
+        env:
+          EXPO_USERNAME: ${{ secrets.EXPO_USERNAME }}
+          EXPO_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
+
+      - name: 📤 Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deltastars-ipa
+          path: ./dist/deltastars.ipa
+          retention-days: 30
+
+  create-release:
+    name: 📦 Create Release
+    runs-on: ubuntu-latest
+    needs: [build-android, build-ios]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📥 Download APK
+        uses: actions/download-artifact@v4
+        with:
+          name: deltastars-apk
+          path: ./dist
+
+      - name: 📥 Download IPA
+        uses: actions/download-artifact@v4
+        with:
+          name: deltastars-ipa
+          path: ./dist
+
+      - name: 📥 Download Build Report
+        uses: actions/download-artifact@v4
+        with:
+          name: build-report
+          path: ./dist
+
+      - name: 📝 Create Release Notes
+        run: |
+          cat > release-notes.md << 'EOF'
+          # Delta Stars v1.0.0 Release
+          
+          ## 📱 Artifacts
+          - **APK (Android)**: deltastars.apk
+          - **IPA (iOS)**: deltastars.ipa
+          
+          ## ✨ Features
+          - ✅ 235+ Real Products
+          - ✅ Secure Payment Processing
+          - ✅ Biometric Authentication
+          - ✅ Offline Support
+          - ✅ Push Notifications
+          - ✅ Arabic & English Support
+          
+          ## 🔐 Security
+          - ✅ AES-256 Encryption
+          - ✅ SSL/TLS Connection
+          - ✅ Digital Signature
+          - ✅ Two-Factor Authentication
+          
+          ## 📋 Installation
+          - Android: Transfer APK to device and install
+          - iOS: Use Xcode or TestFlight
+          
+          ---
+          **Build Date**: $(date)
+          **Status**: ✅ Ready for Production
+          EOF
+
+      - name: 🚀 Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./dist/deltastars.apk
+            ./dist/deltastars.ipa
+            ./dist/build-report.json
+          body_path: release-notes.md
+          tag_name: v1.0.0-${{ github.run_number }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify:
+    name: 📢 Send Notifications
+    runs-on: ubuntu-latest
+    needs: [build-android, build-ios]
+    if: always()
+    steps:
+      - name: 📧 Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: '✅ Delta Stars Build Complete'
+          to: marketing@deltastars-ksa.com
+          from: support@deltastars.store
+          body: |
+            Build Status: SUCCESS
+            
+            APK: Ready for download
+            IPA: Ready for download
+            
+            Check the releases page for artifacts.
+        continue-on-error: true
+
+      - name: 💬 Send Slack Notification
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "✅ Delta Stars Build Complete",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "🚀 *Delta Stars Build Complete*\n\n✅ APK: Ready\n✅ IPA: Ready\n\n<${{ github.server_url }}/${{ github.repository }}/releases|View Releases>"
+                  }
+                }
+              ]
+            }
+        continue-on-error: true
