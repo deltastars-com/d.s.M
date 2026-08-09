@@ -1,4 +1,4 @@
-import { supabase } from './src/supabaseClient';
+import { supabase } from './supabaseClient';
 
 export const LogisticsBridge = {
     // 1. أتمتة إرسال الطلب لأقرب سائق متاح
@@ -37,12 +37,12 @@ export const LogisticsBridge = {
         console.log("تمت العملية بنجاح: تم تسليم الطلب للعميل.");
     },
 
-    private findClosest(custLoc: any, drivers: any[]) {
+    findClosest(custLoc: any, drivers: any[]) {
         // منطق حساب المسافة GPS
         return drivers[0]; 
     },
 
-    private async sendPushNotification(token: string, message: string) {
+    async sendPushNotification(token: string, message: string) {
         // إرسال الإشعار لتطبيق السواقين
         await fetch('https://fcm.googleapis.com/fcm/send', { /* ... */ });
     }
