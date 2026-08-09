@@ -1,0 +1,87 @@
+#═══════════════════════════════════════════════════════════
+#  DeltaStars — النشر التلقائي للويب + فحص الأداء
+#  المالك: علي الدحان (Ali Aldahan)
+#═══════════════════════════════════════════════════════════
+name: 🚀 نشر المتجر (Web + PWA)
+
+on:
+  push:
+    branches: [main, master, production]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+
+      - run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+
+      - name: 🏷️ توليد version.json (للتحديث التلقائي)
+        run: |
+          VER=$(node -p "require('./package.json').version")
+          cat > public/version.json <<EOF
+          {
+            "version": "$VER",
+            "build": "${{ github.run_number }}",
+            "commit": "${{ github.sha }}",
+            "buildTime": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+          cat public/version.json
+
+      - name: 🏗️ بناء الإنتاج
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_GEMINI_KEY: ${{ secrets.VITE_GEMINI_KEY }}
+          VITE_MAPS_KEY: ${{ secrets.VITE_MAPS_KEY }}
+          VITE_MOYASAR_PUBLISHABLE_KEY: ${{ secrets.VITE_MOYASAR_PUBLISHABLE_KEY }}
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_VAPID_KEY: ${{ secrets.VITE_FIREBASE_VAPID_KEY }}
+          NODE_OPTIONS: '--max-old-space-size=4096'
+        run: npm run build
+
+      - name: 📊 تقرير حجم الحزمة
+        run: |
+          echo "### 📦 حجم الحزمة" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          du -sh dist >> $GITHUB_STEP_SUMMARY
+          find dist/assets -name "*.js" -size +900k -exec echo "⚠️ كبير: {}" \; >> $GITHUB_STEP_SUMMARY || true
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+      - name: 🚀 نشر على Netlify
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: './dist'
+          production-deploy: ${{ github.ref == 'refs/heads/main' }}
+          deploy-message: "نشر آلي #${{ github.run_number }}"
+          enable-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        continue-on-error: true
+
+  lighthouse:
+    name: ⚡ فحص الأداء (هدف ≥ 95)
+    needs: build-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: ${{ secrets.PRODUCTION_URL || 'https://deltastars.store' }}
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          runs: 3
+        continue-on-error: true

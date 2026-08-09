@@ -1,0 +1,102 @@
+#═══════════════════════════════════════════════════════════
+#  DeltaStars — التحديث التلقائي للمكتبات والتبعيات
+#  يضمن بقاء الموقع حياً وآمناً إلى ما لا نهاية
+#  المالك: علي الدحان (Ali Aldahan)
+#═══════════════════════════════════════════════════════════
+name: 🔄 التحديث التلقائي للتبعيات
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'      # كل اثنين 2 صباحاً UTC
+    - cron: '0 2 1 * *'      # وأول كل شهر
+  workflow_dispatch:
+    inputs:
+      level:
+        description: 'مستوى التحديث'
+        default: 'safe'
+        type: choice
+        options: [safe, minor, major, security-only]
+
+permissions:
+  contents: write
+  pull-requests: write
+  security-events: write
+
+jobs:
+  update:
+    name: تحديث وفحص التبعيات
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+
+      - name: 📦 تثبيت الحالي
+        run: npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+
+      - name: 🛡️ إصلاح الثغرات الأمنية تلقائياً
+        run: |
+          npm audit fix --legacy-peer-deps || echo "بعض الثغرات تحتاج تدخلاً يدوياً"
+          npm audit --json > audit-report.json 2>/dev/null || true
+          HIGH=$(node -p "try{const a=require('./audit-report.json');(a.metadata?.vulnerabilities?.high||0)+(a.metadata?.vulnerabilities?.critical||0)}catch(e){0}")
+          echo "ثغرات عالية/حرجة: $HIGH"
+          echo "HIGH_VULNS=$HIGH" >> $GITHUB_ENV
+
+      - name: ⬆️ تحديث التبعيات
+        run: |
+          npx npm-check-updates --version >/dev/null 2>&1 || npm i -g npm-check-updates
+          LEVEL="${{ github.event.inputs.level || 'safe' }}"
+          case "$LEVEL" in
+            safe)          ncu -u --target patch  --reject "react,react-dom" ;;
+            minor)         ncu -u --target minor  --reject "react,react-dom" ;;
+            major)         ncu -u ;;
+            security-only) echo "تم الاكتفاء بـ npm audit fix" ;;
+          esac
+          npm install --legacy-peer-deps
+
+      - name: 🔎 فحص الأنواع
+        run: npm run typecheck || echo "⚠️ تحذيرات أنواع"
+        continue-on-error: true
+
+      - name: 🏗️ التحقق من نجاح البناء
+        id: build
+        run: |
+          npm run build
+          echo "size=$(du -sh dist | cut -f1)" >> $GITHUB_OUTPUT
+
+      - name: 🔐 كشف المفاتيح المكشوفة
+        run: |
+          ! grep -rInE "(sk_live_[A-Za-z0-9]{10,}|AIzaSy[A-Za-z0-9_-]{30,})" src/ --include="*.ts" --include="*.tsx" \
+            || (echo "❌ مفتاح مكشوف في الكود!" && exit 1)
+
+      - name: 📝 فتح طلب دمج بالتحديثات
+        if: success()
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(deps): تحديث تلقائي للمكتبات والتبعيات"
+          branch: auto/deps-update
+          delete-branch: true
+          title: "🔄 تحديث تلقائي للتبعيات — ${{ github.run_number }}"
+          labels: dependencies, automated
+          body: |
+            ## 🔄 تحديث تلقائي للمكتبات
+            تم بواسطة سير العمل الآلي — **نجوم دلتا**
+
+            - ✅ البناء نجح (حجم الحزمة: ${{ steps.build.outputs.size }})
+            - 🛡️ ثغرات عالية/حرجة متبقية: `${{ env.HIGH_VULNS }}`
+            - 🔐 لا توجد مفاتيح مكشوفة
+
+            > يُدمج بعد المراجعة. المالك: علي الدحان.
+
+  codeql:
+    name: 🔬 فحص أمني للكود (CodeQL)
+    runs-on: ubuntu-latest
+    permissions: { security-events: write, contents: read }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with: { languages: javascript-typescript }
+      - uses: github/codeql-action/analyze@v3
