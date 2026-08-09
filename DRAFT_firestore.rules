@@ -1,0 +1,261 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── 1. GLOBAL SAFETY NET (DEFAULT DENY) ──
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ── 2. SHARED REUSABLE SECURITY PRIMITIVES ──
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && (
+        request.auth.token.email_verified == true || 
+        request.auth.token.firebase.sign_in_provider == 'phone'
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Standard helper variables
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Sovereign Admin/Developer Email Whitelist
+    function isSovereignAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email in [
+          'deltastars90@gmail.com',
+          'deltastars777@gmail.com',
+          'marketing@deltastars-ksa.com',
+          'info@deltastars-ksa.com',
+          'vipservicesyemen@outlook.sa',
+          'developer@deltastars-ksa.com'
+        ]
+      );
+    }
+
+    // Safe read of the user role to prevent lockouts and identity spoofing
+    function getUserRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    function hasRole(roleName) {
+      return isSignedIn() && (
+        isSovereignAdmin() || (
+          exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+          getUserRole() == roleName
+        )
+      );
+    }
+
+    function isAdmin() {
+      return hasRole('admin') || hasRole('developer');
+    }
+
+    function isOps() {
+      return hasRole('ops') || hasRole('gm') || hasRole('branch_manager');
+    }
+
+    // Checks if the user is authorized to perform administrative tasks
+    function isAuthorizedStaff() {
+      return isAdmin() || isOps();
+    }
+
+    // Checks if the user is an authorized financial auditor/accountant
+    function isFinancialAuditor() {
+      return isAdmin() || hasRole('gm') || hasRole('accountant') || hasRole('ops');
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Enforce exact key validation on user creation to prevent custom role injection
+    function isSafeUserPayload(data) {
+      return !data.keys().hasAny(['role', 'type', 'permissions']) || 
+             data.role == 'client' || 
+             isSovereignAdmin() || 
+             isAdmin();
+    }
+
+    // ── 3. COLLECTION MATCH RULES ──
+
+    // Products (Public read, admin write)
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAuthorizedStaff() && isValidId(productId);
+    }
+
+    // Orders (Customer reads/creates owned orders, admin/ops manages all)
+    match /orders/{orderId} {
+      allow read: if isAuthorizedStaff() || (isSignedIn() && existing().customerId == request.auth.uid);
+      allow create: if isSignedIn() && incoming().customerId == request.auth.uid && isValidId(orderId);
+      allow update: if isAuthorizedStaff() || (
+        isSignedIn() && 
+        existing().customerId == request.auth.uid && 
+        incoming().status == 'cancelled' && 
+        existing().status == 'pending' &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['status'])
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Users & Profiles (Self read/write, administrative override, no self-promoted roles)
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAuthorizedStaff();
+      allow create, update: if (isOwner(userId) || isAuthorizedStaff()) && isSafeUserPayload(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // Categories (Public read, admin write)
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAuthorizedStaff() && isValidId(categoryId);
+    }
+
+    // Units (Public read, admin write)
+    match /units/{unitId} {
+      allow read: if true;
+      allow write: if isAuthorizedStaff() && isValidId(unitId);
+    }
+
+    // Home Sections (Public read, admin write)
+    match /homeSections/{sectionId} {
+      allow read: if true;
+      allow write: if isAuthorizedStaff() && isValidId(sectionId);
+    }
+    match /home_sections/{sectionId} {
+      allow read: if true;
+      allow write: if isAuthorizedStaff() && isValidId(sectionId);
+    }
+
+    // Shipments (Customer trackable, drivers and staff can write)
+    match /shipments/{shipmentId} {
+      allow read: if isAuthorizedStaff() || isSignedIn();
+      allow write: if isAuthorizedStaff() || (isSignedIn() && (existing().agentId == request.auth.uid || incoming().agentId == request.auth.uid));
+    }
+
+    // Drivers / Delivery Agents (Administrative control, drivers can self-update location/status)
+    match /drivers/{driverId} {
+      allow read: if isSignedIn();
+      allow create, delete: if isAuthorizedStaff();
+      allow update: if isAuthorizedStaff() || (
+        isOwner(driverId) && 
+        incoming().id == existing().id &&
+        incoming().name == existing().name &&
+        incoming().diff(existing()).affectedKeys().hasAny(['status', 'location', 'updatedAt'])
+      );
+    }
+    match /delivery_agents/{agentId} {
+      allow read: if isSignedIn();
+      allow create, delete: if isAuthorizedStaff();
+      allow update: if isAuthorizedStaff() || (
+        isOwner(agentId) && 
+        incoming().id == existing().id &&
+        incoming().name == existing().name &&
+        incoming().diff(existing()).affectedKeys().hasAny(['status', 'location', 'updatedAt'])
+      );
+    }
+
+    // Complaints (Owned read/create, admin manage)
+    match /complaints/{complaintId} {
+      allow read: if isAuthorizedStaff() || (isSignedIn() && existing().customerId == request.auth.uid);
+      allow create: if isSignedIn() && incoming().customerId == request.auth.uid;
+      allow update, delete: if isAuthorizedStaff();
+    }
+
+    // Branches (Public read, admin write)
+    match /branches/{branchId} {
+      allow read: if true;
+      allow write: if isAuthorizedStaff() && isValidId(branchId);
+    }
+
+    // Sovereign Roles Collection (Admin exclusive read/write, self role lookup allowed)
+    match /user_roles/{userId} {
+      allow read: if isOwner(userId) || isAuthorizedStaff();
+      allow write: if isAdmin() && isValidId(userId);
+    }
+
+    // Financial Ledgers and Invoices (Strictly Financial Auditors/Admins only)
+    match /financial_ledger/{ledgerId} {
+      allow read, write: if isFinancialAuditor();
+    }
+    match /invoices/{invoiceId} {
+      allow read, write: if isFinancialAuditor();
+    }
+
+    // Coupons (Public read/apply, admin write)
+    match /coupons/{couponId} {
+      allow read: if isSignedIn();
+      allow write: if isAuthorizedStaff() && isValidId(couponId);
+    }
+
+    // Banner Ads (Public read, admin write)
+    match /ads/{adId} {
+      allow read: if true;
+      allow write: if isAuthorizedStaff() && isValidId(adId);
+    }
+
+    // Legal Pages (Public read, admin write)
+    match /legal/{pageId} {
+      allow read: if true;
+      allow write: if isAuthorizedStaff() && isValidId(pageId);
+    }
+    match /legal_pages/{pageId} {
+      allow read: if true;
+      allow write: if isAuthorizedStaff() && isValidId(pageId);
+    }
+
+    // Notifications (Owned read/update, administrative create/write)
+    match /notifications/{notificationId} {
+      allow read: if isAuthorizedStaff() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow create: if isAuthorizedStaff() || (isSignedIn() && incoming().userId == request.auth.uid);
+      allow update: if isAuthorizedStaff() || (isSignedIn() && existing().userId == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['isRead', 'is_read']));
+      allow delete: if isAuthorizedStaff() || (isSignedIn() && existing().userId == request.auth.uid);
+    }
+
+    // FCM tokens for push notification routing (Self read/write)
+    match /fcm_tokens/{tokenId} {
+      allow read, write: if isSignedIn() && (resource == null || existing().userId == request.auth.uid || incoming().userId == request.auth.uid);
+    }
+
+    // Support Tickets (Owned read/write, administrative override)
+    match /support_tickets/{ticketId} {
+      allow read: if isAuthorizedStaff() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow create: if isSignedIn() && incoming().userId == request.auth.uid;
+      allow update: if isAuthorizedStaff() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow delete: if isAdmin();
+    }
+
+    // Corporate VIP Applications (Self apply/read, admin manage)
+    match /corporate_applications/{appId} {
+      allow read: if isAuthorizedStaff() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow create: if isSignedIn() && incoming().userId == request.auth.uid;
+      allow update, delete: if isAuthorizedStaff();
+    }
+
+    // Driver Logs & Activities (Driver self-update, admin read/write)
+    match /driver_logs/{logId} {
+      allow read: if isAuthorizedStaff() || (isSignedIn() && existing().driverId == request.auth.uid);
+      allow create: if isAuthorizedStaff() || (isSignedIn() && incoming().driverId == request.auth.uid);
+      allow update, delete: if isAuthorizedStaff();
+    }
+
+    // Connection test path (Public or authenticated)
+    match /test/connection {
+      allow read, write: if true;
+    }
+  }
+}

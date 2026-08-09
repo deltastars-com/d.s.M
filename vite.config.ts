@@ -1,44 +1,48 @@
-import { jsxLocPlugin } from "@builder.io/vite-plugin-jsx-loc";
-import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
-import fs from "node:fs";
-import path from "path";
-import { defineConfig } from "vite";
-import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime()];
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins,
+  plugins: [react(), tailwindcss()],
+  define: {
+    'process.env.GOOGLE_MAPS_PLATFORM_KEY': JSON.stringify(process.env.GOOGLE_MAPS_PLATFORM_KEY || '')
+  },
+  base: '/',
   resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
-    },
-  },
-  envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
-  publicDir: path.resolve(import.meta.dirname, "client", "public"),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-  },
-  server: {
-    host: true,
-    allowedHosts: [
-      ".manuspre.computer",
-      ".manus.computer",
-      ".manus-asia.computer",
-      ".manuscomputer.ai",
-      ".manusvm.computer",
-      "localhost",
-      "127.0.0.1",
+    alias: [
+      { find: '@components', replacement: path.resolve(__dirname, './src/components') },
+      { find: '@utils', replacement: path.resolve(__dirname, './src/utils') },
+      { find: '@services', replacement: path.resolve(__dirname, './src/services') },
+      { find: '@hooks', replacement: path.resolve(__dirname, './src/hooks') },
+      { find: '@contexts', replacement: path.resolve(__dirname, './src/contexts') },
+      { find: '@lib', replacement: path.resolve(__dirname, './src/lib') },
+      { find: '@constants', replacement: path.resolve(__dirname, './src/constants.ts') },
+      { find: '@', replacement: path.resolve(__dirname, './src') },
     ],
-    fs: {
-      strict: true,
-      deny: ["**/.*"],
-    },
   },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-motion': ['motion'],
+          'vendor-icons': ['lucide-react'],
+          'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          'vendor-recharts': ['recharts'],
+        },
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
+      },
+    },
+    chunkSizeWarningLimit: 1500,
+  },
+  server: { port: 5173, host: true },
 });

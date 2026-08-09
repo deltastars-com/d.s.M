@@ -1,0 +1,12 @@
+{
+  "name": "نجوم دلتا | Delta Stars",
+  "description": "نجوم دلتا للتجارة - شريكك الأمثل للخضروات والفواكه والتمور عالية الجودة بالمملكة العربية السعودية",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://deltastars.store/</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://deltastars.store/opengraph.jpg</image:loc>
+      <image:title>متجر نجوم دلتا — خضروات وفواكه وتمور</image:title>
+    </image:image>
+  </url>
+  <url><loc>https://deltastars.store/?page=products</loc><lastmod>2026-08-03</lastmod><changefreq>daily</changefreq><priority>0.95</priority></url>
+  <url><loc>https://deltastars.store/?page=showroom</loc><lastmod>2026-08-03</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://deltastars.store/?page=track</loc><lastmod>2026-08-03</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://deltastars.store/?page=contact</loc><lastmod>2026-08-03</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://deltastars.store/privacy-policy.html</loc><lastmod>2026-08-03</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://deltastars.store/terms-of-service.html</loc><lastmod>2026-08-03</lastmod><changefreq>yearly</changefreq><priority>0.5</priority></url>
+</urlset>

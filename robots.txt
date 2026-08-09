@@ -1,0 +1,21 @@
+# نجوم دلتا | Delta Stars — robots.txt
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dev_console
+Disallow: /?page=admin_dashboard
+Disallow: /?page=dev_console
+Disallow: /?page=vip_dashboard
+Disallow: /?page=driver_dashboard
+Disallow: /.netlify/
+Disallow: /api/
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://deltastars.store/sitemap.xml
+Host: https://deltastars.store

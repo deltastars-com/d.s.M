@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=yes" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <title>نجوم دلتا | Delta Stars — خضروات وفواكه وتمور</title>
+  <meta name="description" content="متجر نجوم دلتا للتجارة — أجود الخضروات والفواكه والتمور في المملكة العربية السعودية. توصيل مبرّد سريع، أسعار منافسة، جودة مضمونة." />
+  <meta name="keywords" content="نجوم دلتا, Delta Stars, خضروات, فواكه, تمور, توصيل, السعودية, أبها, الرياض, جدة, بقالة, مبرد" />
+  <meta name="theme-color" content="#0b1d0b" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0b1d0b" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="format-detection" content="telephone=yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="نجوم دلتا" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="author" content="Ali Aldahan — علي الدحان" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon-48.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icon-180.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png" />
+  <link rel="mask-icon" href="/favicon.svg" color="#0b1d0b" />
+
+  <!-- Preloads (السرعة) -->
+  <link rel="preload" as="image" href="/splash-logo.png" fetchpriority="high" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://rgusisancfcdabfnfwoy.supabase.co" />
+  <link rel="dns-prefetch" href="https://api.moyasar.com" />
+  <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" /></noscript>
+
+  <!-- Open Graph & Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="نجوم دلتا | Delta Stars" />
+  <meta property="og:title" content="نجوم دلتا | متجر الخضروات والفواكه والتمور" />
+  <meta property="og:description" content="أجود المنتجات الطازجة في المملكة العربية السعودية — توصيل مبرّد لجميع المناطق" />
+  <meta property="og:image" content="/opengraph.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://deltastars.store" />
+  <meta property="og:locale" content="ar_SA" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="نجوم دلتا | Delta Stars" />
+  <meta name="twitter:description" content="أجود الخضروات والفواكه والتمور" />
+  <meta name="twitter:image" content="/opengraph.jpg" />
+
+  <link rel="canonical" href="https://deltastars.store/" />
+
+  <!-- Schema.org structured data (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "OnlineStore",
+    "name": "نجوم دلتا | Delta Stars",
+    "alternateName": "Delta Stars Trading",
+    "url": "https://deltastars.store",
+    "logo": "https://deltastars.store/official_logo.png",
+    "image": "https://deltastars.store/opengraph.jpg",
+    "description": "متجر إلكتروني سعودي لأجود الخضروات والفواكه والتمور الطازجة.",
+    "email": "info@deltastars-ksa.com",
+    "currenciesAccepted": "SAR",
+    "paymentAccepted": "مدى, Visa, MasterCard, Apple Pay",
+    "priceRange": "1.5 - 185 SAR",
+    "founder": { "@type": "Person", "name": "Ali Aldahan" },
+    "address": { "@type": "PostalAddress", "addressCountry": "SA" },
+    "sameAs": ["https://www.facebook.com/profile.php?id=61578647072161"]
+  }
+  </script>
+
+  <style>
+    :root { --brand: #0b1d0b; --brand-mid: #2d5a27; --gold: #f4b942; }
+    * { box-sizing: border-box; }
+    html, body { margin:0; padding:0; background:var(--brand); min-height:100vh; overflow-x:hidden; font-family:'Tajawal',system-ui,-apple-system,'Segoe UI',sans-serif; -webkit-tap-highlight-color:transparent; }
+    #root { min-height:100vh; }
+
+    /* شاشة الإقلاع الاحترافية: نفس هوية شاشة الترحيب — لا سواد إطلاقاً */
+    #ds-splash {
+      position:fixed; inset:0; z-index:2147483647;
+      background: radial-gradient(circle at 50% 40%, #183d16 0%, #0b1d0b 70%);
+      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px;
+      transition: opacity .5s ease-out, visibility .5s ease-out;
+    }
+    #ds-splash.ds-hide { opacity:0; visibility:hidden; pointer-events:none; }
+    #ds-splash img {
+      width:min(58vw, 300px); height:auto;
+      filter: drop-shadow(0 8px 32px rgba(244,185,66,.35));
+      animation: dsLogo 2.4s ease-in-out infinite;
+    }
+    @keyframes dsLogo { 0%,100% { transform:scale(1); opacity:1; } 50% { transform:scale(1.06); opacity:.92; } }
+    .ds-loader { width:48px; height:48px; border:3px solid rgba(244,185,66,.2); border-top-color:#f4b942; border-radius:50%; animation:dsSpin 1s linear infinite; }
+    @keyframes dsSpin { to { transform:rotate(360deg); } }
+    .ds-txt { color:#f4b942; font-weight:700; font-size:14px; letter-spacing:.5px; opacity:.85; text-align:center; }
+    .ds-noscript { color:#fff; padding:24px; text-align:center; font-family:'Tajawal',sans-serif; }
+    .ds-noscript a { color:#f4b942; }
+    @media (prefers-reduced-motion: reduce) {
+      #ds-splash img, .ds-loader { animation:none !important; }
+    }
+  </style>
+</head>
+<body>
+  <noscript>
+    <div class="ds-noscript">
+      <h1 style="color:#f4b942">نجوم دلتا</h1>
+      <p>الرجاء تفعيل JavaScript في المتصفح لتشغيل المتجر.</p>
+      <p>للتواصل: <a href="mailto:info@deltastars-ksa.com">info@deltastars-ksa.com</a></p>
+    </div>
+  </noscript>
+
+  <!-- شاشة الإقلاع الاحترافية -->
+  <div id="ds-splash" role="status" aria-live="polite" aria-label="جارٍ تحميل متجر نجوم دلتا">
+    <img src="/splash-logo.png" alt="نجوم دلتا | Delta Stars" fetchpriority="high" decoding="async" />
+    <div class="ds-loader" role="progressbar" aria-label="نسبة التحميل"></div>
+    <div class="ds-txt">جاري تحميل المتجر…</div>
+  </div>
+
+  <!-- جذر React -->
+  <div id="root"></div>
+
+  <!-- ★ نقطة الدخول الحقيقية: Vite يحوّلها في البناء ★ -->
+  <script type="module" src="/src/main.tsx"></script>
+
+  <!-- إدارة شاشة الإقلاع + الإصلاح الذاتي -->
+  <script>
+    (function () {
+      var splash = document.getElementById('ds-splash');
+      var root = document.getElementById('root');
+      var ready = false;
+      var MIN_SHOW = 400;
+      var HARD_CAP = 8000;
+      var t0 = Date.now();
+
+      function hide() {
+        if (!splash) return;
+        var wait = Math.max(0, MIN_SHOW - (Date.now() - t0));
+        setTimeout(function () {
+          splash.classList.add('ds-hide');
+          setTimeout(function () {
+            if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+            document.documentElement.setAttribute('data-app-ready', '1');
+          }, 550);
+        }, wait);
+      }
+
+      window.__dsAppReady = function () { if (!ready) { ready = true; hide(); } };
+
+      if (root && 'MutationObserver' in window) {
+        var mo = new MutationObserver(function () {
+          if (root.children.length && (root.textContent || '').trim().length > 0) {
+            mo.disconnect();
+            if (!ready) { ready = true; hide(); }
+          }
+        });
+        mo.observe(root, { childList: true, subtree: true });
+      }
+
+      setTimeout(function () { if (!ready) { ready = true; hide(); } }, HARD_CAP);
+
+      // الإصلاح الذاتي: عند تلف ملفات البناء (chunk 404 / mismatch)
+      window.addEventListener('error', function (e) {
+        var f = ((e.filename || '') + '');
+        var m = (((e.message || '') + '')).toLowerCase();
+        var chunkFail = f.indexOf('/assets/') > -1 ||
+                        m.indexOf('failed to fetch dynamically imported') > -1 ||
+                        m.indexOf('loading chunk') > -1 ||
+                        m.indexOf('importing a module script failed') > -1;
+        if (chunkFail && !sessionStorage.getItem('ds_recovered')) {
+          sessionStorage.setItem('ds_recovered', '1');
+          try {
+            if ('caches' in window) caches.keys().then(function(ks){ ks.forEach(function(k){ caches.delete(k); }); });
+            if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(function(rs){ rs.forEach(function(r){ r.unregister(); }); });
+          } catch(_) {}
+          setTimeout(function(){ window.location.reload(); }, 400);
+        }
+      }, true);
+
+      // نبضة نشاط للتطبيق (يوقفها App.tsx بعد المونتاج)
+      window.dispatchEvent(new CustomEvent('ds-html-loaded', { detail: { at: t0 } }));
+    })();
+  </script>
+</body>
+</html>

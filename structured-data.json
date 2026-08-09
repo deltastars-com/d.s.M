@@ -1,0 +1,152 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://deltastars.store/#org",
+      "name": "متجر نجوم دلتا للتجارة",
+      "alternateName": "Delta Stars Trading",
+      "url": "https://deltastars.store",
+      "logo": "https://deltastars.store/official_logo.png",
+      "image": "https://deltastars.store/opengraph.jpg",
+      "email": "info@deltastars-ksa.com",
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=61578647072161"
+      ],
+      "founder": {
+        "@type": "Person",
+        "name": "Ali Aldahan",
+        "alternateName": "علي الدحان"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "SA",
+        "addressRegion": "المملكة العربية السعودية"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Saudi Arabia"
+      }
+    },
+    {
+      "@type": "OnlineStore",
+      "@id": "https://deltastars.store/#store",
+      "name": "نجوم دلتا | Delta Stars",
+      "description": "متجر إلكتروني سعودي لأجود الخضروات والفواكه والتمور الطازجة مع توصيل مبرّد لجميع مناطق المملكة.",
+      "url": "https://deltastars.store",
+      "currenciesAccepted": "SAR",
+      "paymentAccepted": "مدى, Visa, MasterCard, Apple Pay, تحويل بنكي",
+      "priceRange": "1.5 - 185 SAR",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Saturday",
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday"
+          ],
+          "opens": "06:00",
+          "closes": "23:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Friday",
+          "opens": "14:00",
+          "closes": "23:00"
+        }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "كتالوج نجوم دلتا",
+        "itemListElement": [
+          {
+            "@type": "OfferCatalog",
+            "name": "الخضروات الأساسية والمحلية"
+          },
+          {
+            "@type": "OfferCatalog",
+            "name": "الخضروات المستوردة والخاصة"
+          },
+          {
+            "@type": "OfferCatalog",
+            "name": "الفواكه"
+          },
+          {
+            "@type": "OfferCatalog",
+            "name": "الورقيات والأعشاب"
+          },
+          {
+            "@type": "OfferCatalog",
+            "name": "أصناف القصيم والتمور"
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://deltastars.store/#website",
+      "url": "https://deltastars.store",
+      "name": "نجوم دلتا",
+      "inLanguage": "ar-SA",
+      "publisher": {
+        "@id": "https://deltastars.store/#org"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://deltastars.store/?page=products&q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "ما أوقات عمل متجر نجوم دلتا؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "السبت — الخميس من 6:00 صباحاً حتى 11:00 مساءً، والجمعة من 2:00 عصراً حتى 11:00 مساءً. الطلب عبر التطبيق متاح 24 ساعة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "كيف يتم التوصيل؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "التوصيل في نفس اليوم للطلبات المؤكدة قبل 4:00 عصراً عبر نقل مبرّد، ومجاني للطلبات فوق 300 ريال."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ما طرق الدفع المتاحة؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "مدى، فيزا، ماستركارد، Apple Pay، والتحويل البنكي عبر بوابة ميسر السعودية الآمنة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "هل يمكن إرجاع المنتجات؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "نعم، يمكن رفض أو إرجاع أي منتج عند الاستلام إذا لم يطابق معايير الطزاجة، ويُستبدل أو تُرد قيمته كاملة."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "أين تقع فروع نجوم دلتا؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "أبها، خميس مشيط، الرياض، جدة، القصيم، والدمام — مع تغطية توصيل لجميع مناطق المملكة."
+          }
+        }
+      ]
+    }
+  ]
+}

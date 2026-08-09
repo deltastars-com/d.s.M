@@ -1,0 +1,35 @@
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(self), camera=(self), publickey-credentials-get=(self), payment=(self)
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Robots-Tag: index, follow
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Content-Type: image/png
+  Cache-Control: public, max-age=2592000
+
+/*.jpg
+  Content-Type: image/jpeg
+  Cache-Control: public, max-age=2592000
+
+/manifest.json
+  Content-Type: application/manifest+json; charset=utf-8
+  Cache-Control: public, max-age=0, must-revalidate
+
+/service-worker.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=0, must-revalidate
+  Service-Worker-Allowed: /
+
+/version.json
+  Content-Type: application/json
+  Cache-Control: no-store, must-revalidate
+
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate

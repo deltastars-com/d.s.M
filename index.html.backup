@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <title>DeltaStars | نجوم دلتا — خضروات وفواكه وتمور طازجة</title>
+  <meta name="description" content="متجر نجوم دلتا للتجارة — أجود الخضروات والفواكه والتمور في المملكة العربية السعودية. توصيل سريع لـ 6 مدن، أسعار منافسة، جودة مضمونة." />
+  <meta name="keywords" content="DeltaStars, نجوم دلتا, خضروات, فواكه, تمور, توصيل, جدة, مكة, المدينة, الرياض, الدمام, أبها, السعودية" />
+  <meta name="author" content="علي الدحان" />
+  <meta name="robots" content="index, follow" />
+  <meta name="googlebot" content="index, follow" />
+
+  <meta name="theme-color" content="#0b1d0b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DeltaStars" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="msapplication-TileColor" content="#0b1d0b" />
+  <meta name="msapplication-TileImage" content="/icon-144.png" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/icon-48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/icon-96.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/icon-152.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="/icon-120.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" /></noscript>
+
+  <link rel="preload" as="image" href="/splash-logo.png" fetchpriority="high" />
+
+  <meta property="og:title" content="DeltaStars | نجوم دلتا" />
+  <meta property="og:description" content="أجود الخضروات والفواكه والتمور — المملكة العربية السعودية" />
+  <meta property="og:image" content="/opengraph.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://deltastars.store" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ar_SA" />
+  <meta property="og:site_name" content="DeltaStars | نجوم دلتا" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DeltaStars | نجوم دلتا" />
+  <meta name="twitter:description" content="أجود الخضروات والفواكه والتمور — المملكة العربية السعودية" />
+  <meta name="twitter:image" content="/opengraph.jpg" />
+
+  <link rel="canonical" href="https://deltastars.store/" />
+
+  <link rel="stylesheet" crossorigin href="/assets/index-BhN2ChH_.css" />
+  <link rel="stylesheet" crossorigin href="/assets/leaflet-a6kZMJSm.css" media="print" onload="this.media='all'" />
+  <link rel="modulepreload" crossorigin href="/assets/polyfills-e-BlhUEd.js" />
+  <link rel="modulepreload" crossorigin href="/assets/index-y8k0cezQ.js" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "DeltaStars | نجوم دلتا للتجارة",
+    "image": "https://deltastars.store/official_logo.png",
+    "url": "https://deltastars.store",
+    "telephone": "+966920023204",
+    "email": "info@deltastars-ksa.com",
+    "sameAs": ["https://www.facebook.com/profile.php?id=61578647072161"],
+    "address": { "@type": "PostalAddress", "addressCountry": "SA", "addressLocality": "جدة" },
+    "priceRange": "SAR",
+    "openingHours": "Mo-Su 07:00-23:00"
+  }
+  </script>
+
+  <style>
+    :root { --ds-primary:#2d5a27; --ds-secondary:#ca8a04; --ds-dark:#0b1d0b; --ds-gold:#f4b942; }
+    *,*::before,*::after { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html { -webkit-text-size-adjust:100%; }
+    html,body {
+      margin:0; padding:0; width:100%; min-height:100%;
+      background:var(--ds-dark);
+      font-family:'Tajawal',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    #root { min-height:100vh; min-height:100dvh; }
+
+    #ds-splash {
+      position:fixed; inset:0; z-index:2147483647;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(45,90,39,.55) 0%, transparent 62%),
+        linear-gradient(165deg,#12331a 0%,#0b1d0b 55%,#040c04 100%);
+      display:flex; align-items:center; justify-content:center; flex-direction:column;
+      transition:opacity .55s cubic-bezier(.4,0,.2,1), visibility .55s;
+      padding:calc(24px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom));
+    }
+    #ds-splash.ds-hide { opacity:0; visibility:hidden; pointer-events:none; }
+
+    .ds-logo-wrap {
+      width:clamp(140px,46vw,240px); height:clamp(140px,46vw,240px);
+      display:flex; align-items:center; justify-content:center;
+      position:relative; animation:dsFloat 3.4s ease-in-out infinite;
+    }
+    .ds-logo-wrap::before {
+      content:''; position:absolute; inset:-18%;
+      background:radial-gradient(circle, rgba(244,185,66,.30), transparent 66%);
+      border-radius:50%; animation:dsGlow 2.4s ease-in-out infinite; pointer-events:none;
+    }
+    .ds-logo-img {
+      width:100%; height:100%;
+      object-fit:contain;
+      filter:drop-shadow(0 10px 34px rgba(244,185,66,.45));
+      position:relative; z-index:2;
+    }
+    @keyframes dsFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+    @keyframes dsGlow { 0%,100%{opacity:.32;transform:scale(1)} 50%{opacity:.8;transform:scale(1.14)} }
+
+    .ds-brand {
+      margin-top:clamp(20px,4vh,34px);
+      font-size:clamp(26px,7vw,38px); font-weight:900;
+      background:linear-gradient(90deg,#ca8a04,#f4b942,#ca8a04);
+      background-size:200% 100%;
+      -webkit-background-clip:text; background-clip:text;
+      -webkit-text-fill-color:transparent;
+      animation:dsShimmer 3s linear infinite;
+      letter-spacing:.5px; text-align:center; line-height:1.25;
+    }
+    @keyframes dsShimmer { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+
+    .ds-tagline {
+      color:rgba(255,255,255,.62);
+      font-size:clamp(11px,3vw,14px); margin-top:6px;
+      letter-spacing:4px; font-weight:600; text-align:center;
+    }
+    .ds-loader {
+      margin-top:clamp(26px,5vh,42px);
+      width:clamp(160px,55vw,230px); height:3px;
+      background:rgba(255,255,255,.08); border-radius:99px;
+      overflow:hidden; position:relative;
+    }
+    .ds-loader::before {
+      content:''; position:absolute; top:0; left:-100%;
+      width:100%; height:100%;
+      background:linear-gradient(90deg,transparent,var(--ds-gold),transparent);
+      animation:dsSlide 1.35s ease-in-out infinite;
+    }
+    @keyframes dsSlide { 0%{left:-100%} 100%{left:100%} }
+    .ds-loading-text {
+      color:rgba(255,255,255,.42);
+      font-size:clamp(11px,2.8vw,13px); margin-top:16px;
+      animation:dsBlink 1.6s ease-in-out infinite; text-align:center;
+    }
+    @keyframes dsBlink { 0%,100%{opacity:.42} 50%{opacity:.9} }
+    .ds-copyright {
+      position:absolute; bottom:calc(16px + env(safe-area-inset-bottom));
+      color:rgba(255,255,255,.22); font-size:10.5px;
+      letter-spacing:.6px; text-align:center; width:100%;
+    }
+    .ds-noscript {
+      color:#fff; text-align:center; padding:36px 22px;
+      background:rgba(255,255,255,.05); border-radius:20px;
+      max-width:400px; margin:20px auto;
+    }
+    @media (prefers-reduced-motion:reduce) {
+      .ds-logo-wrap,.ds-logo-wrap::before,.ds-brand,.ds-loader::before,.ds-loading-text { animation:none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="ds-splash" role="status" aria-live="polite" aria-label="جارٍ تحميل المتجر">
+    <div class="ds-logo-wrap">
+      <img class="ds-logo-img" src="/splash-logo.png" alt="DeltaStars نجوم دلتا" decoding="async" fetchpriority="high" />
+    </div>
+    <div class="ds-brand">نجوم دلتا</div>
+    <div class="ds-tagline">DELTASTARS</div>
+    <div class="ds-loader" role="progressbar" aria-label="نسبة التحميل"></div>
+    <div class="ds-loading-text">جارٍ تحميل المتجر…</div>
+    <div class="ds-copyright">© 2026 DeltaStars — جميع الحقوق محفوظة</div>
+  </div>
+
+  <noscript>
+    <div class="ds-noscript">
+      <h2>يتطلب المتجر تفعيل JavaScript</h2>
+      <p>الرجاء تفعيل JavaScript في متصفحك لعرض متجر نجوم دلتا.</p>
+    </div>
+  </noscript>
+
+  <div id="root"></div>
+
+  <script>
+  (function () {
+    var splash = document.getElementById('ds-splash');
+    var root = document.getElementById('root');
+    var ready = false;
+    var MIN_SHOW = 550;
+    var HARD_CAP = 11000;
+    var t0 = Date.now();
+
+    function hide() {
+      if (!splash) return;
+      var wait = Math.max(0, MIN_SHOW - (Date.now() - t0));
+      setTimeout(function () {
+        splash.classList.add('ds-hide');
+        setTimeout(function () {
+          if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+          document.documentElement.setAttribute('data-app-ready', '1');
+        }, 620);
+      }, wait);
+    }
+
+    window.__dsAppReady = function () { if (!ready) { ready = true; hide(); } };
+
+    if (root && 'MutationObserver' in window) {
+      var mo = new MutationObserver(function () {
+        if (root.children.length && root.textContent.trim().length) {
+          mo.disconnect();
+          if (!ready) { ready = true; hide(); }
+        }
+      });
+      mo.observe(root, { childList: true, subtree: true });
+    }
+
+    setTimeout(function () { if (!ready) { ready = true; hide(); } }, HARD_CAP);
+
+    window.addEventListener('error', function (e) {
+      var f = (e.filename || '');
+      var m = (e.message || '').toLowerCase();
+      var chunkFail = f.indexOf('/assets/') > -1 ||
+                      m.indexOf('chunk') > -1 ||
+                      m.indexOf('failed to fetch dynamically imported') > -1;
+      if (chunkFail && !sessionStorage.getItem('ds_recovered')) {
+        sessionStorage.setItem('ds_recovered', '1');
+        var jobs = [];
+        if ('serviceWorker' in navigator) {
+          jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) {
+            return Promise.all(rs.map(function (r) { return r.unregister(); }));
+          }).catch(function () {}));
+        }
+        if ('caches' in window) {
+          jobs.push(caches.keys().then(function (ks) {
+            return Promise.all(ks.map(function (k) { return caches.delete(k); }));
+          }).catch(function () {}));
+        }
+        Promise.all(jobs).then(function () { setTimeout(function () { location.reload(); }, 350); });
+      }
+    }, true);
+
+    window.addEventListener('error', function (e) {
+      var m = (e.message || '').toLowerCase();
+      var s = (e.filename || '').toLowerCase();
+      if (m.indexOf('websocket') > -1 || m.indexOf('vite') > -1 ||
+          s.indexOf('@vite/client') > -1 || s.indexOf('rum') > -1) {
+        e.preventDefault(); e.stopPropagation();
+      }
+    });
+    window.addEventListener('unhandledrejection', function (e) {
+      var r = String(e.reason || '');
+      if (r.indexOf('WebSocket') > -1 || r.indexOf('vite') > -1 ||
+          r.indexOf('AbortError') > -1 || r.indexOf('rum_collection') > -1) {
+        e.preventDefault();
+      }
+    });
+
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/service-worker.js').catch(function () {});
+      });
+    }
+  })();
+  </script>
+
+  <script type="module" crossorigin src="/assets/index-y8k0cezQ.js"></script>
+
+  <script nomodule>
+    !function(){var e=document,t=e.createElement("script");t.src="/assets/polyfills-legacy-c8gKkfae.js",t.async=!1,e.head.appendChild(t);var n=e.createElement("script");n.src="/assets/index-legacy-B8A03QuP.js",n.async=!1,e.head.appendChild(n)}();
+  </script>
+</body>
+</html>
