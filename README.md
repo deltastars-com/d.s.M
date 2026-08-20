@@ -75,7 +75,7 @@ npm run build:ios    # iOS project (يفتح Xcode)
 
 - 📧 support@deltastars.sa
 - 🌐 https://deltastars.sa
-- 👤 المالك: علي الدحان
+- 👤 المطور المهندس: علي الدحان
 
 ---
 © 2026 Delta Stars — All rights reserved
