@@ -39,43 +39,16 @@ jobs:
       - name: Add Android Platform
         run: npx cap add android
 
-      - name: Generate Android icons
+      - name: Sync Capacitor (creates Android project)
+        run: npx cap sync android
+
+      - name: Generate Android icons AFTER sync
         run: |
           node -e "
-          const { createCanvas } = require('canvas');
+          const sharp = require('sharp');
           const fs = require('fs');
+          const svg = fs.readFileSync('public/favicon.svg');
           
-          function generateIcon(size) {
-            const canvas = createCanvas(size, size);
-            const ctx = canvas.getContext('2d');
-            
-            // White background
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, size, size);
-            
-            // Green DS text
-            const fontSize = Math.round(size * 0.39);
-            ctx.font = 'bold italic ' + fontSize + 'px Georgia, serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            const gradient = ctx.createLinearGradient(size * 0.2, 0, size * 0.8, size);
-            gradient.addColorStop(0, '#1a8c2e');
-            gradient.addColorStop(0.5, '#2db846');
-            gradient.addColorStop(1, '#1a8c2e');
-            ctx.fillStyle = gradient;
-            ctx.fillText('DS', size / 2, size * 0.45);
-            
-            // DELTA STARS text
-            const titleSize = Math.round(size * 0.08);
-            ctx.font = '800 ' + titleSize + 'px Arial, sans-serif';
-            ctx.fillStyle = '#1a1a1a';
-            ctx.fillText('DELTA STARS', size / 2, size * 0.75);
-            
-            return canvas.toBuffer('image/png');
-          }
-          
-          // Generate icons for all Android mipmap densities
           const densities = {
             'mipmap-mdpi': 48,
             'mipmap-hdpi': 72,
@@ -84,18 +57,36 @@ jobs:
             'mipmap-xxxhdpi': 192
           };
           
-          for (const [density, size] of Object.entries(densities)) {
-            const dir = 'android/app/src/main/res/' + density;
-            fs.mkdirSync(dir, { recursive: true });
-            const icon = generateIcon(size);
-            fs.writeFileSync(dir + '/ic_launcher.png', icon);
-            fs.writeFileSync(dir + '/ic_launcher_round.png', icon);
-            console.log('Generated ' + density + ' (' + size + 'x' + size + ')');
+          async function generate() {
+            for (const [density, size] of Object.entries(densities)) {
+              const dir = 'android/app/src/main/res/' + density;
+              
+              // Delete old icons first
+              try { fs.unlinkSync(dir + '/ic_launcher.png'); } catch(e) {}
+              try { fs.unlinkSync(dir + '/ic_launcher_round.png'); } catch(e) {}
+              
+              // Generate new high-quality icons
+              await sharp(svg)
+                .resize(size, size)
+                .png()
+                .toFile(dir + '/ic_launcher.png');
+              
+              await sharp(svg)
+                .resize(size, size)
+                .png()
+                .toFile(dir + '/ic_launcher_round.png');
+              
+              const stats = fs.statSync(dir + '/ic_launcher.png');
+              console.log(density + ': ' + size + 'x' + size + ' (' + stats.size + ' bytes)');
+            }
           }
+          
+          generate().then(() => console.log('Icons generated!'));
           "
 
-      - name: Sync Capacitor
-        run: npx cap sync android
+      - name: Verify icons
+        run: |
+          ls -la android/app/src/main/res/mipmap-*/ic_launcher.png
 
       - name: Build Debug APK
         run: |
