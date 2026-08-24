@@ -33,6 +33,9 @@ jobs:
       - name: Build Web
         run: bun run build
 
+      - name: Add Android Platform
+        run: npx cap add android || true
+
       - name: Sync Capacitor
         run: npx cap sync android
 
