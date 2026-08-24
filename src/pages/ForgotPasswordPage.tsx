@@ -3,6 +3,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/contexts/ToastContext';
 import type { Page } from '@/types';
 
+const OFFICIAL_EMAIL = 'deltastars777@gmail.com';
+
 interface Props {
   onNavigate: (page: Page, params?: any) => void;
 }
@@ -12,44 +14,70 @@ export default function ForgotPasswordPage({ onNavigate }: Props) {
   const { addToast } = useToast();
   const ar = language === 'ar';
 
-  const [step, setStep] = useState<'phone' | 'otp' | 'reset'>('phone');
-  const [phone, setPhone] = useState('');
-  const [otpCode, setOtpCode] = useState('');
+  const [step, setStep] = useState<'email' | 'sent' | 'reset'>('email');
+  const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const sendResetCode = () => {
-    if (!phone || phone.length < 10) {
-      addToast(ar ? 'أدخل رقم جوال صحيح' : 'Enter valid phone', 'error');
+  const sendResetEmail = () => {
+    if (!email || !email.includes('@')) {
+      addToast(ar ? 'أدخل بريد إلكتروني صحيح' : 'Enter valid email', 'error');
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setStep('otp');
-      addToast(ar ? 'تم إرسال رمز التحقق' : 'Reset code sent', 'success');
-    }, 1500);
-  };
+    
+    // Create mailto link for password reset
+    const subject = encodeURIComponent(ar ? 'طلب إعادة تعيين كلمة المرور - نجوم دلتا' : 'Password Reset Request - Delta Stars');
+    const body = encodeURIComponent(
+      (ar ? `
+مرحباً،
 
-  const verifyCode = () => {
-    if (otpCode.length !== 4) {
-      addToast(ar ? 'أدخل الرمز المكون من 4 أرقام' : 'Enter 4-digit code', 'error');
-      return;
-    }
-    setLoading(true);
+أطلب إعادة تعيين كلمة المرور للحساب التالي:
+
+البريد الإلكتروني: ${email}
+
+القسم: (حدد: العميل / الإدارة / السائق / الشركات)
+
+الرجاء إرسال رابط إعادة تعيين كلمة المرور.
+
+مع خالص التحية،
+المهندس علي درهم الدحان
+نجوم دلتا | Delta Stars
+      `.trim() : `
+Hello,
+
+I request a password reset for the following account:
+
+Email: ${email}
+
+Department: (Choose: Customer / Admin / Driver / Corporate)
+
+Please send the password reset link.
+
+Best regards,
+Ali Aldahan
+Delta Stars
+      `.trim())
+    );
+    
     setTimeout(() => {
       setLoading(false);
-      if (otpCode === '0000' || otpCode.length === 4) {
-        setStep('reset');
-      } else {
-        addToast(ar ? 'الرمز غير صحيح' : 'Invalid code', 'error');
-      }
+      setStep('sent');
+      addToast(ar ? 'تم فتح البريد الإلكتروني' : 'Email client opened', 'success');
+      
+      // Open email client
+      window.open(`mailto:${OFFICIAL_EMAIL}?subject=${subject}&body=${body}`, '_blank');
     }, 1000);
   };
 
   const resetPassword = () => {
     if (newPassword.length < 6) {
       addToast(ar ? 'كلمة المرور 6 أحرف على الأقل' : 'Min 6 characters', 'error');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      addToast(ar ? 'كلمتا المرور غير متطابقتين' : 'Passwords do not match', 'error');
       return;
     }
     setLoading(true);
@@ -66,64 +94,69 @@ export default function ForgotPasswordPage({ onNavigate }: Props) {
         <div className="text-center mb-8">
           <span className="text-5xl block mb-3">🔑</span>
           <h1 className="text-2xl font-black text-emerald-900">{ar ? 'استعادة كلمة المرور' : 'Reset Password'}</h1>
-          <p className="text-slate-500 text-sm mt-1">{ar ? 'أدخل رقم جوالك لإعادة التعيين' : 'Enter your phone to reset'}</p>
+          <p className="text-slate-500 text-sm mt-1">{ar ? 'أدخل بريدك الإلكتروني لإعادة التعيين' : 'Enter your email to reset'}</p>
         </div>
 
-        {step === 'phone' && (
+        {step === 'email' && (
           <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-600 mb-1">{ar ? 'رقم الجوال' : 'Phone Number'}</label>
-              <div className="flex gap-2">
-                <span className="px-3 py-3 bg-slate-100 rounded-xl text-sm font-bold text-slate-600">+966</span>
-                <input type="tel" value={phone} onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  placeholder="5XXXXXXXX" className="flex-1 px-4 py-3 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+              <label className="block text-xs font-bold text-slate-600 mb-1">{ar ? 'البريد الإلكتروني' : 'Email Address'}</label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+                placeholder="example@email.com" className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+            </div>
+            
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-xl">📧</span>
+                <div className="text-sm">
+                  <p className="font-bold text-blue-800">{ar ? 'البريد الرسمي للدعم' : 'Official Support Email'}</p>
+                  <a href={`mailto:${OFFICIAL_EMAIL}`} className="text-blue-600 hover:underline font-mono text-xs">{OFFICIAL_EMAIL}</a>
+                  <p className="text-blue-600 text-xs mt-1">{ar ? 'سيتم إرسال طلبك لهذا البريد' : 'Your request will be sent to this email'}</p>
+                </div>
               </div>
             </div>
-            <button onClick={sendResetCode} disabled={loading || phone.length < 10}
+            
+            <button onClick={sendResetEmail} disabled={loading || !email.includes('@')}
               className="w-full py-3 bg-emerald-900 hover:bg-emerald-800 disabled:bg-slate-300 text-white font-bold rounded-xl transition">
-              {loading ? (ar ? 'جاري الإرسال...' : 'Sending...') : (ar ? 'إرسال رمز التحقق' : 'Send Reset Code')}
+              {loading ? (ar ? 'جاري الإرسال...' : 'Sending...') : (ar ? 'إرسال طلب إعادة التعيين' : 'Send Reset Request')}
             </button>
+            
+            <div className="text-center text-xs text-slate-500">
+              <p>{ar ? 'أو تواصل معنا مباشرة على' : 'Or contact us directly at'}</p>
+              <a href={`mailto:${OFFICIAL_EMAIL}`} className="text-emerald-600 font-bold hover:underline">{OFFICIAL_EMAIL}</a>
+            </div>
           </div>
         )}
 
-        {step === 'otp' && (
+        {step === 'sent' && (
           <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-4">
-            <p className="text-sm text-slate-500 text-center">
-              {ar ? `تم إرسال الرمز إلى +966${phone}` : `Code sent to +966${phone}`}
-            </p>
-            <div className="flex justify-center gap-3">
-              {[0,1,2,3].map(i => (
-                <input key={i} type="tel" maxLength={1} value={otpCode[i] || ''}
-                  onChange={e => {
-                    const val = e.target.value.replace(/\D/g, '');
-                    const newCode = otpCode.split('');
-                    newCode[i] = val;
-                    setOtpCode(newCode.join(''));
-                  }}
-                  className="w-14 h-14 text-center text-2xl font-black border-2 border-slate-200 rounded-xl focus:border-emerald-500 outline-none transition" />
-              ))}
+            <div className="text-center">
+              <span className="text-5xl block mb-3">✅</span>
+              <h2 className="text-lg font-bold text-emerald-800">{ar ? 'تم الإرسال!' : 'Sent!'}</h2>
+              <p className="text-sm text-slate-500 mt-2">
+                {ar ? `تم إرسال طلب إعادة التعيين إلى:` : 'Reset request sent to:'}
+              </p>
+              <p className="font-bold text-emerald-700 mt-1">{OFFICIAL_EMAIL}</p>
             </div>
-            <button onClick={verifyCode} disabled={loading || otpCode.length !== 4}
-              className="w-full py-3 bg-emerald-900 hover:bg-emerald-800 disabled:bg-slate-300 text-white font-bold rounded-xl transition">
-              {loading ? (ar ? 'جاري التحقق...' : 'Verifying...') : (ar ? 'تأكيد الرمز' : 'Verify Code')}
-            </button>
-            <button onClick={() => { setStep('phone'); setOtpCode(''); }}
+            
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+              <div className="flex items-start gap-3">
+                <span className="text-xl">📋</span>
+                <div className="text-sm">
+                  <p className="font-bold text-amber-800">{ar ? 'الخطوات التالية' : 'Next Steps'}</p>
+                  <ol className="text-amber-700 text-xs mt-2 space-y-1 list-decimal list-inside">
+                    <li>{ar ? 'تحقق من صندوق البريد الوارد' : 'Check your inbox'}</li>
+                    <li>{ar ? 'ستتلقى رابط إعادة التعيين خلال دقائق' : 'You will receive a reset link shortly'}</li>
+                    <li>{ar ? 'اتبع الخطوات في البريد الإلكتروني' : 'Follow the steps in the email'}</li>
+                    <li>{ar ? 'إذا لم تجد البريد، تحقق من مجلد Spam' : 'If not found, check Spam folder'}</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+            
+            <button onClick={() => { setStep('email'); setEmail(''); }}
               className="w-full py-2 text-slate-500 hover:text-emerald-600 text-sm font-semibold transition">
               ← {ar ? 'الرجوع' : 'Back'}
-            </button>
-          </div>
-        )}
-
-        {step === 'reset' && (
-          <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-slate-600 mb-1">{ar ? 'كلمة المرور الجديدة' : 'New Password'}</label>
-              <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)}
-                placeholder="••••••" className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-            </div>
-            <button onClick={resetPassword} disabled={loading}
-              className="w-full py-3 bg-emerald-900 hover:bg-emerald-800 disabled:bg-slate-300 text-white font-bold rounded-xl transition">
-              {loading ? (ar ? 'جاري الحفظ...' : 'Saving...') : (ar ? 'حفظ كلمة المرور الجديدة' : 'Save New Password')}
             </button>
           </div>
         )}
@@ -133,6 +166,12 @@ export default function ForgotPasswordPage({ onNavigate }: Props) {
             ← {ar ? 'العودة لتسجيل الدخول' : 'Back to Sign In'}
           </button>
         </p>
+        
+        <div className="text-center mt-4">
+          <p className="text-xs text-slate-400">
+            {ar ? '© 2026 نجوم دلتا | المطور: المهندس علي درهم الدحان' : '© 2026 Delta Stars | Developer: Ali Aldahan'}
+          </p>
+        </div>
       </div>
     </div>
   );
