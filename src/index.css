@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0b1d0b;
+  --color-primary-light: #2d5a27;
+  --color-primary-dark: #060f06;
+  --color-secondary: #f4b942;
+  --color-secondary-light: #f7cb6a;
+  --color-secondary-dark: #d49b20;
+  --color-accent: #f4b942;
+  --color-slate-gray: #f8fafc;
+  --color-background: #f8fafc;
+  --color-foreground: #0b1d0b;
+  --color-card: #ffffff;
+  --color-card-foreground: #0b1d0b;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-border: #e2e8f0;
+  --color-ring: #f4b942;
+  --font-family-sans: 'Tajawal', 'Cairo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-family-sans);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  img { max-width: 100%; height: auto; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  /* Focus visible for accessibility */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ===== Dark Mode ===== */
+@media (prefers-color-scheme: dark) {
+  body { background-color: #0f1a0f; color: #e2e8f0; }
+}
+
+.dark body,
+.dark { background-color: #0f1a0f; color: #e2e8f0; }
+.dark .bg-white { background-color: #1a2e1a; }
+.dark .bg-slate-50 { background-color: #0f1a0f; }
+.dark .bg-slate-100 { background-color: #1a2e1a; }
+.dark .text-slate-900 { color: #e2e8f0; }
+.dark .text-slate-800 { color: #cbd5e1; }
+.dark .text-slate-700 { color: #94a3b8; }
+.dark .text-slate-600 { color: #94a3b8; }
+.dark .text-slate-500 { color: #64748b; }
+.dark .text-slate-400 { color: #475569; }
+.dark .border-slate-100 { border-color: #1e3a1e; }
+.dark .border-slate-200 { border-color: #1e3a1e; }
+.dark .hover\:bg-slate-50:hover { background-color: #1a2e1a; }
+.dark .hover\:bg-slate-100:hover { background-color: #1e3a1e; }
+.dark .hover\:bg-slate-200:hover { background-color: #253d25; }
+.dark .bg-emerald-900 { background-color: #041a04; }
+.dark .bg-emerald-50 { background-color: #0a1f0a; }
+.dark .bg-emerald-800 { background-color: #061a06; }
+
+@layer utilities {
+  .line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+  .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+  .container { width: 100%; max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+  .text-balance { text-wrap: balance; }
+}
+
+/* ===== Animations ===== */
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+.animate-marquee {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 45s linear infinite;
+  will-change: transform;
+}
+.animate-marquee:hover { animation-play-state: paused; }
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.animate-pulse-ring { animation: pulse-ring 1.5s ease-out infinite; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn { animation: fadeIn 0.4s ease-out; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slideUp { animation: slideUp 0.5s ease-out; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slideIn { animation: slideIn 0.3s ease-out; }
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-scaleIn { animation: scaleIn 0.3s ease-out; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ===== Skeleton Loading ===== */
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+.dark .skeleton {
+  background: linear-gradient(90deg, #1e3a1e 25%, #253d25 50%, #1e3a1e 75%);
+  background-size: 200% 100%;
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== Print ===== */
+@media print {
+  header, footer, nav, .no-print { display: none !important; }
+  body { background: white; color: black; }
+}

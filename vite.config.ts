@@ -31,11 +31,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-motion': ['motion'],
-          'vendor-icons': ['lucide-react'],
-          'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
-          'vendor-recharts': ['recharts'],
+          'vendor-react': ['react', 'react-dom'],
         },
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
@@ -44,5 +40,5 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 1500,
   },
-  server: { port: 5173, host: true },
+  server: { port: 5173, host: '0.0.0.0' },
 });
