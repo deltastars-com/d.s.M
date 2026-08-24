@@ -1,11 +1,7 @@
-name: Build APK & IPA
+name: Build Android APK
 
 on:
   push:
-    branches:
-      - main
-      - develop
-  pull_request:
     branches:
       - main
   workflow_dispatch:
@@ -13,99 +9,50 @@ on:
 jobs:
   build-android:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: '18'
-          cache: 'npm'
-      
+          bun-version: latest
+
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
-      
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-      
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-      
-      - name: Install Expo CLI
-        run: npm install -g eas-cli
-      
-      - name: Login to Expo
-        run: |
-          eas login --username ${{ secrets.EXPO_USERNAME }} --password ${{ secrets.EXPO_PASSWORD }}
-      
-      - name: Build APK
-        run: eas build --platform android --type apk --non-interactive
-      
-      - name: Download APK
-        run: |
-          BUILD_ID=$(eas build:list --limit 1 --json | jq -r '.[0].id')
-          eas build:download --id $BUILD_ID --path ./deltastars.apk
-      
-      - name: Upload APK to artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: deltastars-apk
-          path: ./deltastars.apk
-      
-      - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./deltastars.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          java-version: '17'
 
-  build-ios:
-    runs-on: macos-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
-      
-      - name: Install Expo CLI
-        run: npm install -g eas-cli
-      
-      - name: Login to Expo
+        run: bun install
+
+      - name: Build Web
+        run: bun run build
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Build APK
         run: |
-          eas login --username ${{ secrets.EXPO_USERNAME }} --password ${{ secrets.EXPO_PASSWORD }}
-      
-      - name: Build IPA
-        run: eas build --platform ios --type ipa --non-interactive
-      
-      - name: Download IPA
-        run: |
-          BUILD_ID=$(eas build:list --limit 1 --json | jq -r '.[0].id')
-          eas build:download --id $BUILD_ID --path ./deltastars.ipa
-      
-      - name: Upload IPA to artifacts
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: deltastars-ipa
-          path: ./deltastars.ipa
-      
+          name: delta-stars-apk
+          path: android/app/build/outputs/apk/release/*.apk
+          retention-days: 30
+
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: ./deltastars.ipa
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          files: android/app/build/outputs/apk/release/*.apk
+          draft: false
+          prerelease: false
