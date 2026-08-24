@@ -33,16 +33,32 @@ jobs:
       - name: Build Web
         run: bun run build
 
-      - name: Remove old Android directory
-        run: rm -rf android
+      - name: Create icon PNG from SVG
+        run: |
+          node -e "
+          const sharp = require('sharp');
+          const fs = require('fs');
+          const svg = fs.readFileSync('public/favicon.svg');
+          
+          // Generate 1024x1024 icon for Capacitor
+          sharp(svg)
+            .resize(1024, 1024)
+            .png()
+            .toFile('resources/icon.png')
+            .then(() => console.log('Created resources/icon.png'));
+          
+          // Generate splash screen
+          sharp(svg)
+            .resize(2732, 2732, { fit: 'contain', background: '#0b1d0b' })
+            .png()
+            .toFile('resources/splash.png')
+            .then(() => console.log('Created resources/splash.png'));
+          "
 
       - name: Add Android Platform
         run: npx cap add android
 
-      - name: Sync Capacitor (creates Android project)
-        run: npx cap sync android
-
-      - name: Generate Android icons AFTER sync
+      - name: Generate Android icons
         run: |
           node -e "
           const sharp = require('sharp');
@@ -60,12 +76,8 @@ jobs:
           async function generate() {
             for (const [density, size] of Object.entries(densities)) {
               const dir = 'android/app/src/main/res/' + density;
+              fs.mkdirSync(dir, { recursive: true });
               
-              // Delete old icons first
-              try { fs.unlinkSync(dir + '/ic_launcher.png'); } catch(e) {}
-              try { fs.unlinkSync(dir + '/ic_launcher_round.png'); } catch(e) {}
-              
-              // Generate new high-quality icons
               await sharp(svg)
                 .resize(size, size)
                 .png()
@@ -81,11 +93,15 @@ jobs:
             }
           }
           
-          generate().then(() => console.log('Icons generated!'));
+          generate().then(() => console.log('All icons generated!'));
           "
 
-      - name: Verify icons
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Verify icons exist
         run: |
+          echo "=== Checking icons ==="
           ls -la android/app/src/main/res/mipmap-*/ic_launcher.png
 
       - name: Build Debug APK
