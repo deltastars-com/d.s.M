@@ -1,0 +1,95 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Typecheck
+        run: bun tsc -b --noEmit
+
+      - name: Build
+        run: bun run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: dist
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.run_number }}
+          name: "Delta Stars v${{ github.run_number }}"
+          body: |
+            ## 🚀 Delta Stars — Release
+            
+            ### 📦 Build Artifacts:
+            - **PWA**: Available on GitHub Pages
+            - **Source Code**: Complete source included
+            
+            ### 📱 Downloads:
+            - **Android APK**: See `build-apk.yml` workflow
+            - **iOS IPA**: See `build-release.yml` workflow
+            
+            ### ✅ What's Included:
+            - 20 pages (Home, Products, Cart, Checkout, etc.)
+            - 8 backend services (Payment, Auth, GPS, etc.)
+            - Full security (encryption, CSRF, biometric)
+            - PWA with offline support
+            - Arabic/English bilingual support
+            
+            ### 🏷️ Version: ${{ github.run_number }}
+          files: |
+            dist/**
+          draft: false
+          prerelease: false
