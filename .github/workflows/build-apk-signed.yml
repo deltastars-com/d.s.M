@@ -1,0 +1,102 @@
+name: Build Signed Android APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build Web
+        run: bun run build
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Generate Keystore
+        run: |
+          keytool -genkey -v \
+            -keystore android/app/release.keystore \
+            -alias deltastars \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass deltastars123 \
+            -keypass deltastars123 \
+            -dname "CN=Ali Aldahan, OU=Delta Stars, O=Delta Stars Trading, L=Abha, ST=Asir, C=SA"
+
+      - name: Build Signed APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Build AAB
+        run: |
+          cd android
+          ./gradlew bundleRelease
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        continue-on-error: true
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "Delta Stars ${{ github.ref_name }} (Signed)"
+          body: |
+            ## Delta Stars ${{ github.ref_name }} - Signed APK
+            
+            ### Downloads:
+            - **APK** (signed): `delta-stars-signed.apk`
+            - **AAB** (for Google Play): `delta-stars.aab`
+            
+            ### Installation:
+            1. Download the APK file
+            2. Open it on your Android device
+            3. Tap "Install"
+            
+            **Note:** This APK is signed and ready to install.
+            
+            **Owner:** Ali Aldahan (deltastars777@gmail.com)
+          files: |
+            android/app/build/outputs/apk/release/*.apk
+            android/app/build/outputs/bundle/release/*.aab
+          draft: false
+          prerelease: false
+
+      - name: Upload Signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: delta-stars-signed-apk
+          path: android/app/build/outputs/apk/release/*.apk
+          retention-days: 30
+
+      - name: Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: delta-stars-aab
+          path: android/app/build/outputs/bundle/release/*.aab
+          retention-days: 30
