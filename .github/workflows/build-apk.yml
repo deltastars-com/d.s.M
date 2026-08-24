@@ -39,22 +39,20 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Download Gradle Wrapper
-        run: |
-          cd android
-          if [ ! -f gradle/wrapper/gradle-wrapper.jar ]; then
-            mkdir -p gradle/wrapper
-            curl -sL https://services.gradle.org/distributions/gradle-8.4-bin.zip -o /tmp/gradle.zip
-            unzip -q /tmp/gradle.zip -d /tmp/
-            cp /tmp/gradle-8.4/lib/gradle-wrapper-8.4.jar gradle/wrapper/gradle-wrapper.jar
-            rm -rf /tmp/gradle* 
-          fi
-
       - name: Build APK
         run: |
           cd android
-          chmod +x gradlew
-          ./gradlew assembleRelease
+          # Use gradle directly if available, otherwise download wrapper
+          if command -v gradle &> /dev/null; then
+            gradle assembleRelease
+          else
+            # Download gradle wrapper jar directly
+            mkdir -p gradle/wrapper
+            curl -sL "https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradle/wrapper/gradle-wrapper.jar" -o gradle/wrapper/gradle-wrapper.jar
+            curl -sL "https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradlew" -o gradlew
+            chmod +x gradlew
+            ./gradlew assembleRelease
+          fi
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
