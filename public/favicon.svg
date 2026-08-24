@@ -1,33 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1a8c2e"/>
-      <stop offset="50%" style="stop-color:#2db846"/>
-      <stop offset="100%" style="stop-color:#1a8c2e"/>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a7a2a"/>
+      <stop offset="50%" style="stop-color:#2dba46"/>
+      <stop offset="100%" style="stop-color:#1a7a2a"/>
     </linearGradient>
-    <linearGradient id="darkGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#0d5c1a"/>
-      <stop offset="100%" style="stop-color:#1a8c2e"/>
+      <stop offset="100%" style="stop-color:#2dba46"/>
     </linearGradient>
   </defs>
+  
   <!-- White rounded background -->
-  <rect width="512" height="512" rx="96" fill="#ffffff"/>
-  <!-- DS Letters with leaf styling -->
-  <text x="256" y="280" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="200" fill="url(#green)" letter-spacing="-5" font-style="italic">DS</text>
+  <rect width="512" height="512" rx="80" fill="#ffffff"/>
+  
+  <!-- Top star -->
+  <polygon points="256,35 262,52 280,52 266,62 271,80 256,70 241,80 246,62 232,52 250,52" fill="#2dba46"/>
+  
+  <!-- Left star -->
+  <polygon points="105,65 109,75 119,75 111,81 114,91 105,85 96,91 99,81 91,75 101,75" fill="#2dba46" opacity="0.7"/>
+  
+  <!-- Right star -->
+  <polygon points="407,65 411,75 421,75 413,81 416,91 407,85 398,91 401,81 393,75 403,75" fill="#2dba46" opacity="0.7"/>
+  
+  <!-- D letter with leaf -->
+  <path d="M140,120 L140,310 Q140,340 170,340 L210,340 Q260,340 260,280 L260,170 Q260,120 210,120 Z" 
+        fill="url(#greenGrad)" stroke="#0d5c1a" stroke-width="2"/>
+  <!-- D inner cutout -->
+  <ellipse cx="200" cy="230" rx="35" ry="80" fill="#ffffff"/>
+  
   <!-- Leaf on D -->
-  <ellipse cx="185" cy="140" rx="30" ry="15" fill="url(#darkGreen)" transform="rotate(-25, 185, 140)"/>
-  <ellipse cx="170" cy="125" rx="22" ry="11" fill="url(#green)" transform="rotate(-45, 170, 125)"/>
+  <ellipse cx="155" cy="100" rx="35" ry="16" fill="url(#leafGrad)" transform="rotate(-30, 155, 100)"/>
+  <ellipse cx="140" cy="85" rx="28" ry="13" fill="#2dba46" transform="rotate(-50, 140, 85)"/>
+  
+  <!-- S letter with leaf -->
+  <path d="M280,150 Q280,120 310,120 L370,120 Q400,120 400,150 L400,180 Q400,210 370,210 L330,210 L280,280 Q280,340 320,340 L380,340 Q400,340 400,320" 
+        fill="none" stroke="url(#greenGrad)" stroke-width="45" stroke-linecap="round"/>
+  
   <!-- Leaf on S -->
-  <ellipse cx="340" cy="140" rx="28" ry="14" fill="url(#darkGreen)" transform="rotate(25, 340, 140)"/>
-  <ellipse cx="355" cy="125" rx="22" ry="11" fill="url(#green)" transform="rotate(45, 355, 125)"/>
-  <!-- Stars decoration -->
-  <polygon points="256,45 261,60 276,60 264,69 268,84 256,75 244,84 248,69 236,60 251,60" fill="#2db846" opacity="0.7"/>
-  <polygon points="140,75 144,85 154,85 146,91 149,101 140,95 131,101 134,91 126,85 136,85" fill="#2db846" opacity="0.5"/>
-  <polygon points="372,75 376,85 386,85 378,91 381,101 372,95 363,101 366,91 358,85 368,85" fill="#2db846" opacity="0.5"/>
+  <ellipse cx="390" cy="100" rx="32" ry="15" fill="url(#leafGrad)" transform="rotate(30, 390, 100)"/>
+  <ellipse cx="405" cy="85" rx="25" ry="12" fill="#2dba46" transform="rotate(50, 405, 85)"/>
+  
   <!-- Decorative line -->
-  <line x1="120" y1="320" x2="392" y2="320" stroke="#2db846" stroke-width="2" opacity="0.4"/>
+  <line x1="100" y1="370" x2="412" y2="370" stroke="#2dba46" stroke-width="2" opacity="0.5"/>
+  
   <!-- DELTA STARS text -->
-  <text x="256" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="52" fill="#1a1a1a" letter-spacing="4">DELTA STARS</text>
+  <text x="256" y="420" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="48" fill="#1a1a1a" letter-spacing="4">DELTA STARS</text>
+  
   <!-- Tagline -->
-  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-weight="400" font-size="20" fill="#6b7b6b" letter-spacing="3">PREMIUM QUALITY • FRESH &amp; NATURAL</text>
+  <text x="256" y="465" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="18" fill="#6b7b6b" letter-spacing="2">PREMIUM QUALITY • FRESH &amp; NATURAL</text>
 </svg>
