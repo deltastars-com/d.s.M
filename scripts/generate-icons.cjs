@@ -1,89 +1,126 @@
-const sharp = require('sharp');
-const path = require('path');
+const { createCanvas } = require('canvas');
 const fs = require('fs');
 
-const SVG_PATH = path.join(__dirname, '..', 'public', 'favicon.svg');
-const OUTPUT_DIR = path.join(__dirname, '..', 'public');
+const sizes = [48, 72, 96, 128, 144, 152, 180, 192, 384, 512];
 
-const sizes = [
-  { name: 'icon-48.png', size: 48 },
-  { name: 'icon-72.png', size: 72 },
-  { name: 'icon-96.png', size: 96 },
-  { name: 'icon-128.png', size: 128 },
-  { name: 'icon-144.png', size: 144 },
-  { name: 'icon-152.png', size: 152 },
-  { name: 'icon-180.png', size: 180 },
-  { name: 'icon-192.png', size: 192 },
-  { name: 'icon-384.png', size: 384 },
-  { name: 'icon-512.png', size: 512 },
-  { name: 'splash-logo.png', size: 512 },
-  { name: 'opengraph.jpg', size: 1200, height: 630, format: 'jpeg' },
-  { name: 'official_logo.png', size: 512 },
-];
+function drawLogo(ctx, size, padding) {
+  const w = size;
+  const h = size;
+  const p = padding || 0;
+  const drawW = w - p * 2;
+  const drawH = h - p * 2;
+  const cx = w / 2;
+  const cy = h / 2;
 
-async function generateIcons() {
-  const svgBuffer = fs.readFileSync(SVG_PATH);
-  
-  for (const icon of sizes) {
-    const width = icon.size;
-    const height = icon.height || icon.size;
-    const format = icon.format || 'png';
-    const ext = format === 'jpeg' ? 'jpg' : 'png';
-    const outputPath = path.join(OUTPUT_DIR, `${icon.name}`);
-    
-    try {
-      await sharp(svgBuffer)
-        .resize(width, height, { fit: 'contain', background: { r: 11, g: 29, b: 11, alpha: 1 } })
-        .toFormat(format, { quality: 95 })
-        .toFile(outputPath);
-      
-      console.log(`✅ Generated: ${icon.name} (${width}x${height})`);
-    } catch (err) {
-      console.error(`❌ Failed: ${icon.name} - ${err.message}`);
-    }
-  }
-  
-  // Also generate maskable icon (with padding)
-  try {
-    await sharp(svgBuffer)
-      .resize(512, 512, { fit: 'contain', background: { r: 11, g: 29, b: 11, alpha: 1 } })
-      .toFile(path.join(OUTPUT_DIR, 'icon-512-maskable.png'));
-    console.log('✅ Generated: icon-512-maskable.png');
-  } catch (err) {
-    console.error(`❌ Failed: icon-512-maskable.png - ${err.message}`);
-  }
+  // White rounded background
+  const r = drawW * 0.19;
+  ctx.beginPath();
+  ctx.moveTo(p + r, p);
+  ctx.lineTo(p + drawW - r, p);
+  ctx.quadraticCurveTo(p + drawW, p, p + drawW, p + r);
+  ctx.lineTo(p + drawW, p + drawH - r);
+  ctx.quadraticCurveTo(p + drawW, p + drawH, p + drawW - r, p + drawH);
+  ctx.lineTo(p + r, p + drawH);
+  ctx.quadraticCurveTo(p, p + drawH, p, p + drawH - r);
+  ctx.lineTo(p, p + r);
+  ctx.quadraticCurveTo(p, p, p + r, p);
+  ctx.closePath();
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
 
-  // Generate simple ICO (using the 192px PNG)
-  try {
-    const icoBuffer = await sharp(svgBuffer)
-      .resize(192, 192, { fit: 'contain', background: { r: 11, g: 29, b: 11, alpha: 1 } })
-      .png()
-      .toBuffer();
-    
-    // Create a minimal ICO file
-    const icoHeader = Buffer.alloc(6);
-    icoHeader.writeUInt16LE(0, 0); // Reserved
-    icoHeader.writeUInt16LE(1, 2); // Type: ICO
-    icoHeader.writeUInt16LE(1, 4); // Count: 1 image
-    
-    const icoDir = Buffer.alloc(16);
-    icoDir.writeUInt8(0, 0); // Width (0 = 256)
-    icoDir.writeUInt8(0, 1); // Height (0 = 256)
-    icoDir.writeUInt8(0, 2); // Color palette
-    icoDir.writeUInt8(0, 3); // Reserved
-    icoDir.writeUInt16LE(1, 4); // Color planes
-    icoDir.writeUInt16LE(32, 6); // Bits per pixel
-    icoDir.writeUInt32LE(icoBuffer.length, 8); // Size of image data
-    icoDir.writeUInt32LE(22, 12); // Offset to image data
-    
-    const icoFile = Buffer.concat([icoHeader, icoDir, icoBuffer]);
-    fs.writeFileSync(path.join(OUTPUT_DIR, 'favicon.ico'), icoFile);
-    console.log('✅ Generated: favicon.ico');
-  } catch (err) {
-    console.error(`❌ Failed: favicon.ico - ${err.message}`);
-  }
-  
-  console.log('\n🎉 All icons generated successfully!');
+  // Green DS text
+  const fontSize = Math.round(drawW * 0.39);
+  ctx.font = 'bold italic ' + fontSize + 'px Georgia, serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const gradient = ctx.createLinearGradient(p + drawW * 0.2, p, p + drawW * 0.8, p + drawH);
+  gradient.addColorStop(0, '#1a8c2e');
+  gradient.addColorStop(0.5, '#2db846');
+  gradient.addColorStop(1, '#1a8c2e');
+  ctx.fillStyle = gradient;
+  ctx.fillText('DS', cx, cy * 1.04);
+
+  // DELTA STARS text
+  const titleSize = Math.round(drawW * 0.1);
+  ctx.font = '800 ' + titleSize + 'px Arial, sans-serif';
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillText('DELTA STARS', cx, cy * 1.52);
+
+  // Tagline
+  const tagSize = Math.round(drawW * 0.04);
+  ctx.font = '400 ' + tagSize + 'px Arial, sans-serif';
+  ctx.fillStyle = '#6b7b6b';
+  ctx.fillText('PREMIUM QUALITY • FRESH & NATURAL', cx, cy * 1.74);
 }
 
-generateIcons().catch(console.error);
+// Generate all icon sizes
+sizes.forEach(size => {
+  const canvas = createCanvas(size, size);
+  const ctx = canvas.getContext('2d');
+  drawLogo(ctx, size, 0);
+  fs.writeFileSync('public/icon-' + size + '.png', canvas.toBuffer('image/png'));
+  console.log('Generated icon-' + size + '.png');
+});
+
+// Maskable icon (full bleed - no rounded corners)
+const canvas512 = createCanvas(512, 512);
+const ctx512 = canvas512.getContext('2d');
+ctx512.fillStyle = '#ffffff';
+ctx512.fillRect(0, 0, 512, 512);
+const g = ctx512.createLinearGradient(100, 0, 412, 512);
+g.addColorStop(0, '#1a8c2e');
+g.addColorStop(0.5, '#2db846');
+g.addColorStop(1, '#1a8c2e');
+ctx512.font = 'bold italic 200px Georgia, serif';
+ctx512.textAlign = 'center';
+ctx512.textBaseline = 'middle';
+ctx512.fillStyle = g;
+ctx512.fillText('DS', 256, 265);
+ctx512.font = '800 52px Arial, sans-serif';
+ctx512.fillStyle = '#1a1a1a';
+ctx512.fillText('DELTA STARS', 256, 390);
+ctx512.font = '400 22px Arial, sans-serif';
+ctx512.fillStyle = '#6b7b6b';
+ctx512.fillText('PREMIUM QUALITY • FRESH & NATURAL', 256, 430);
+fs.writeFileSync('public/icon-512-maskable.png', canvas512.toBuffer('image/png'));
+console.log('Generated icon-512-maskable.png');
+
+// Splash logo
+const splash = createCanvas(512, 512);
+const splashCtx = splash.getContext('2d');
+drawLogo(splashCtx, 512, 0);
+fs.writeFileSync('public/splash-logo.png', splash.toBuffer('image/png'));
+console.log('Generated splash-logo.png');
+
+// OpenGraph image (1200x630)
+const og = createCanvas(1200, 630);
+const ogCtx = og.getContext('2d');
+ogCtx.fillStyle = '#ffffff';
+ogCtx.fillRect(0, 0, 1200, 630);
+// Green header bar
+ogCtx.fillStyle = '#0d5c1a';
+ogCtx.fillRect(0, 0, 1200, 20);
+// DS logo in center
+ogCtx.font = 'bold italic 220px Georgia, serif';
+ogCtx.textAlign = 'center';
+ogCtx.textBaseline = 'middle';
+const ogGrad = ogCtx.createLinearGradient(300, 100, 900, 500);
+ogGrad.addColorStop(0, '#1a8c2e');
+ogGrad.addColorStop(0.5, '#2db846');
+ogGrad.addColorStop(1, '#1a8c2e');
+ogCtx.fillStyle = ogGrad;
+ogCtx.fillText('DS', 600, 280);
+ogCtx.font = '800 64px Arial, sans-serif';
+ogCtx.fillStyle = '#1a1a1a';
+ogCtx.fillText('DELTA STARS', 600, 430);
+ogCtx.font = '400 28px Arial, sans-serif';
+ogCtx.fillStyle = '#6b7b6b';
+ogCtx.fillText('PREMIUM QUALITY • FRESH & NATURAL', 600, 490);
+fs.writeFileSync('public/opengraph.jpg', og.toBuffer('image/jpeg', { quality: 0.92 }));
+console.log('Generated opengraph.jpg');
+
+// Copy official_logo.png (same as icon-512)
+fs.copyFileSync('public/icon-512.png', 'public/official_logo.png');
+console.log('Generated official_logo.png');
+
+console.log('\n✅ All icons generated successfully!');

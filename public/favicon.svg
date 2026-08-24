@@ -1,28 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0b1d0b"/>
-      <stop offset="100%" style="stop-color:#1a3a1a"/>
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a8c2e"/>
+      <stop offset="50%" style="stop-color:#2db846"/>
+      <stop offset="100%" style="stop-color:#1a8c2e"/>
     </linearGradient>
-    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#f4b942"/>
-      <stop offset="100%" style="stop-color:#d49b20"/>
+    <linearGradient id="darkGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d5c1a"/>
+      <stop offset="100%" style="stop-color:#1a8c2e"/>
     </linearGradient>
   </defs>
-  <!-- Background -->
-  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <!-- White rounded background -->
+  <rect width="512" height="512" rx="96" fill="#ffffff"/>
+  <!-- DS Letters with leaf styling -->
+  <text x="256" y="280" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="200" fill="url(#green)" letter-spacing="-5" font-style="italic">DS</text>
+  <!-- Leaf on D -->
+  <ellipse cx="185" cy="140" rx="30" ry="15" fill="url(#darkGreen)" transform="rotate(-25, 185, 140)"/>
+  <ellipse cx="170" cy="125" rx="22" ry="11" fill="url(#green)" transform="rotate(-45, 170, 125)"/>
+  <!-- Leaf on S -->
+  <ellipse cx="340" cy="140" rx="28" ry="14" fill="url(#darkGreen)" transform="rotate(25, 340, 140)"/>
+  <ellipse cx="355" cy="125" rx="22" ry="11" fill="url(#green)" transform="rotate(45, 355, 125)"/>
   <!-- Stars decoration -->
-  <polygon points="256,40 261,58 280,58 265,69 270,87 256,76 242,87 247,69 232,58 251,58" fill="url(#gold)" opacity="0.8"/>
-  <polygon points="140,70 144,82 156,82 146,89 150,101 140,94 130,101 134,89 124,82 136,82" fill="url(#gold)" opacity="0.6"/>
-  <polygon points="372,70 376,82 388,82 378,89 382,101 372,94 362,101 366,89 356,82 368,82" fill="url(#gold)" opacity="0.6"/>
-  <!-- DS Text -->
-  <text x="256" y="260" text-anchor="middle" font-family="Arial Black, sans-serif" font-weight="900" font-size="180" fill="url(#gold)" letter-spacing="-10">DS</text>
-  <!-- Leaf accent -->
-  <ellipse cx="340" cy="140" rx="28" ry="14" fill="#2d5a27" transform="rotate(-30, 340, 140)"/>
-  <ellipse cx="360" cy="125" rx="22" ry="11" fill="#3d7a37" transform="rotate(-45, 360, 125)"/>
-  <!-- Bottom line -->
-  <line x1="140" y1="320" x2="372" y2="320" stroke="url(#gold)" stroke-width="3" opacity="0.5"/>
-  <!-- Text -->
-  <text x="256" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="48" fill="url(#gold)" letter-spacing="6">DELTA STARS</text>
-  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-weight="400" font-size="22" fill="#8fbc8f" letter-spacing="4">PREMIUM QUALITY</text>
+  <polygon points="256,45 261,60 276,60 264,69 268,84 256,75 244,84 248,69 236,60 251,60" fill="#2db846" opacity="0.7"/>
+  <polygon points="140,75 144,85 154,85 146,91 149,101 140,95 131,101 134,91 126,85 136,85" fill="#2db846" opacity="0.5"/>
+  <polygon points="372,75 376,85 386,85 378,91 381,101 372,95 363,101 366,91 358,85 368,85" fill="#2db846" opacity="0.5"/>
+  <!-- Decorative line -->
+  <line x1="120" y1="320" x2="392" y2="320" stroke="#2db846" stroke-width="2" opacity="0.4"/>
+  <!-- DELTA STARS text -->
+  <text x="256" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="52" fill="#1a1a1a" letter-spacing="4">DELTA STARS</text>
+  <!-- Tagline -->
+  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-weight="400" font-size="20" fill="#6b7b6b" letter-spacing="3">PREMIUM QUALITY • FRESH &amp; NATURAL</text>
 </svg>
