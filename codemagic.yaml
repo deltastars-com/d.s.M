@@ -1,235 +1,121 @@
-#═══════════════════════════════════════════════════════════
-#  DeltaStars | نجوم دلتا — Codemagic CI/CD
-#  iOS IPA (App Store) + Android AAB (Google Play)
-#  Owner: Ali Aldahan (علي الدحان)
-#═══════════════════════════════════════════════════════════
-
-definitions:
-  env_versions: &env_versions
-    node: 20
-    npm: 10
-    xcode: latest
-    cocoapods: default
-    java: 21
-
-  vite_env: &vite_env
-    VITE_SUPABASE_URL: $VITE_SUPABASE_URL
-    VITE_SUPABASE_ANON_KEY: $VITE_SUPABASE_ANON_KEY
-    VITE_GOOGLE_MAPS_API_KEY: $VITE_GOOGLE_MAPS_API_KEY
-    VITE_GEMINI_API_KEY: $VITE_GEMINI_API_KEY
-    VITE_MOYASAR_PUBLISHABLE_KEY: $VITE_MOYASAR_PUBLISHABLE_KEY
-    VITE_FIREBASE_API_KEY: $VITE_FIREBASE_API_KEY
-    VITE_FIREBASE_PROJECT_ID: $VITE_FIREBASE_PROJECT_ID
-    VITE_FIREBASE_MESSAGING_SENDER_ID: $VITE_FIREBASE_MESSAGING_SENDER_ID
-    VITE_FIREBASE_APP_ID: $VITE_FIREBASE_APP_ID
-    NODE_OPTIONS: "--max-old-space-size=4096"
-
-  scripts:
-    - &install_deps
-      name: 📦 تثبيت التبعيات
-      script: |
-        npm ci --legacy-peer-deps || npm install --legacy-peer-deps
-
-    - &build_web
-      name: 🏗️ بناء نسخة الويب
-      script: |
-        npm run build
-        echo "✅ dist size:" && du -sh dist
-
-    - &gen_assets
-      name: 🎨 توليد الأيقونات وشاشة البداية
-      script: |
-        npm i -D @capacitor/assets --legacy-peer-deps || true
-        mkdir -p assets-src
-        cp official_logo.png assets-src/icon.png 2>/dev/null || cp icon-1024.png assets-src/icon.png
-        cp splash-logo.png assets-src/splash.png 2>/dev/null || cp icon-1024.png assets-src/splash.png
-        npx @capacitor/assets generate \
-          --assetPath assets-src \
-          --iconBackgroundColor '#0b1d0b' \
-          --iconBackgroundColorDark '#0b1d0b' \
-          --splashBackgroundColor '#0b1d0b' \
-          --splashBackgroundColorDark '#0b1d0b' || echo "assets fallback"
+# Codemagic CI/CD Configuration for Delta Stars
+# https://codemagic.io
 
 workflows:
-  #═════════════════ iOS — App Store ═════════════════
-  ios-appstore:
-    name: 🍎 DeltaStars iOS (IPA → App Store)
-    max_build_duration: 90
-    instance_type: mac_mini_m2
-    integrations:
-      app_store_connect: DeltaStars_ASC_Key
-    environment:
-      <<: *env_versions
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.deltastars.app
-      vars:
-        <<: *vite_env
-        BUNDLE_ID: "com.deltastars.app"
-        XCODE_WORKSPACE: "ios/App/App.xcworkspace"
-        XCODE_SCHEME: "App"
-        APP_STORE_APPLE_ID: $APP_STORE_APPLE_ID
-      groups:
-        - deltastars_secrets
-
-    triggering:
-      events: [push, tag]
-      branch_patterns:
-        - pattern: main
-          include: true
-        - pattern: production
-          include: true
-
-    scripts:
-      - *install_deps
-      - *build_web
-      - *gen_assets
-
-      - name: 📲 Capacitor sync iOS
-        script: |
-          npx cap add ios || echo "ios platform exists"
-          npx cap sync ios
-          npx cap copy ios
-
-      - name: 🍫 CocoaPods install
-        script: |
-          cd ios/App && pod install --repo-update
-
-      - name: 🔢 رقم البناء التلقائي
-        script: |
-          cd ios/App
-          BUILD_NUM=$(($(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID" 2>/dev/null || echo 0) + 1))
-          agvtool new-version -all $BUILD_NUM
-          echo "build number = $BUILD_NUM"
-
-      - name: 🔐 إعداد شهادات التوقيع
-        script: |
-          keychain initialize
-          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
-          keychain add-certificates
-          xcode-project use-profiles
-
-      - name: 🔨 بناء IPA
-        script: |
-          xcode-project build-ipa \
-            --workspace "$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME" \
-            --archive-flags="-destination 'generic/platform=iOS'"
-
-    artifacts:
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-
-    publishing:
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: true
-        submit_to_app_store: false
-        beta_groups:
-          - DeltaStars Internal Testers
-      email:
-        recipients:
-          - info@deltastars-ksa.com
-        notify:
-          success: true
-          failure: true
-
-  #═════════════════ Android — Google Play ═════════════════
-  android-playstore:
-    name: 🤖 DeltaStars Android (APK + AAB → Google Play)
+  # Android Build (APK + AAB)
+  delta-stars-android:
+    name: Build Android (APK + AAB)
     max_build_duration: 60
-    instance_type: linux_x2
     environment:
-      <<: *env_versions
-      android_signing:
-        - deltastars_keystore
+      flutter: stable
+      node: 20
       vars:
-        <<: *vite_env
-        PACKAGE_NAME: "com.deltastars.app"
-      groups:
-        - deltastars_secrets
-
+        JAVA_HOME: /opt/homebrew/opt/openjdk@17
     triggering:
-      events: [push, tag]
+      events:
+        - push
+        - tag
       branch_patterns:
-        - pattern: main
+        - pattern: 'main'
           include: true
-        - pattern: production
-          include: true
-
+          source: true
     scripts:
-      - *install_deps
-      - *build_web
-      - *gen_assets
-
-      - name: 📲 Capacitor sync Android
+      - name: Setup Node.js
         script: |
-          npx cap add android || echo "android platform exists"
-          npx cap sync android
-          npx cap copy android
-
-      - name: 🔢 رقم الإصدار التلقائي
-        script: |
-          cd android
-          BUILD_NUM=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" 2>/dev/null || echo 0) + 1))
-          echo "versionCode = $BUILD_NUM"
-          sed -i "s/versionCode .*/versionCode $BUILD_NUM/" app/build.gradle || true
-
-      - name: 🔨 بناء APK + AAB موقّعين
+          npm install -g bun
+          bun install
+      - name: Build Web App
+        script: bun run build
+      - name: Setup Android SDK
         script: |
           cd android
           chmod +x gradlew
-          ./gradlew clean assembleRelease bundleRelease --no-daemon --stacktrace
-
+      - name: Build APK
+        script: |
+          cd android
+          ./gradlew assembleRelease
+      - name: Build AAB
+        script: |
+          cd android
+          ./gradlew bundleRelease
     artifacts:
-      - android/app/build/outputs/**/*.apk
-      - android/app/build/outputs/**/*.aab
-      - android/app/build/outputs/**/mapping.txt
-
+      - android/app/build/outputs/apk/release/*.apk
+      - android/app/build/outputs/bundle/release/*.aab
     publishing:
-      google_play:
-        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
-        track: internal
-        submit_as_draft: true
-        in_app_update_priority: 3
       email:
         recipients:
           - info@deltastars-ksa.com
-        notify:
-          success: true
-          failure: true
+      slack:
+        channel: '#builds'
+        webhook:
+          url: $SLACK_WEBHOOK_URL
 
-  #═════════════════ فحص جودة + أمان ═════════════════
-  quality-audit:
-    name: 🔍 فحص الجودة والأمان (تلقائي)
-    max_build_duration: 30
-    instance_type: linux_x2
+  # iOS Build
+  delta-stars-ios:
+    name: Build iOS (IPA)
+    max_build_duration: 60
     environment:
-      <<: *env_versions
-      vars:
-        <<: *vite_env
+      node: 20
     triggering:
-      events: [pull_request, push]
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
     scripts:
-      - *install_deps
-      - name: 🔎 TypeScript check
-        script: npm run typecheck || echo "⚠️ warnings"
-        ignore_failure: true
-      - name: 🛡️ فحص الثغرات الأمنية
+      - name: Setup Node.js
         script: |
-          npm audit --audit-level=high --production || echo "⚠️ audit warnings"
-        ignore_failure: true
-      - name: 🔐 كشف المفاتيح المكشوفة
+          npm install -g bun
+          bun install
+      - name: Build Web App
+        script: bun run build
+      - name: Sync iOS
         script: |
-          echo "== البحث عن مفاتيح مكشوفة =="
-          ! grep -rInE "(sk_live_|AIzaSy[0-9A-Za-z_-]{33}|-----BEGIN (RSA|EC) PRIVATE KEY-----)" src/ --include="*.ts" --include="*.tsx" \
-            || (echo "❌ مفاتيح مكشوفة في الكود!" && exit 1)
-      - name: 🏗️ Build verification
-        script: npm run build
-      - name: 📊 حجم الحزمة
+          npx cap sync ios
+          cd ios/App
+          pod install
+      - name: Build iOS
         script: |
-          du -sh dist
-          find dist/assets -name "*.js" -size +900k -exec echo "⚠️ ملف كبير: {}" \; || true
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -archivePath $PWD/build/App.xcarchive \
+            archive
+          xcodebuild -exportArchive \
+            -archivePath $PWD/build/App.xcarchive \
+            -exportOptionsPlist $PWD/exportOptions.plist \
+            -exportPath $PWD/build
     artifacts:
-      - dist/**
+      - ios/App/build/*.ipa
+    publishing:
+      email:
+        recipients:
+          - info@deltastars-ksa.com
+
+  # Web Deploy (Netlify/Vercel)
+  delta-stars-web:
+    name: Deploy Web App
+    max_build_duration: 30
+    environment:
+      node: 20
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+    scripts:
+      - name: Setup Node.js
+        script: |
+          npm install -g bun
+          bun install
+      - name: Typecheck
+        script: bun tsc -b --noEmit
+      - name: Build
+        script: bun run build
+    artifacts:
+      - dist/**/*
