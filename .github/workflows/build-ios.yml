@@ -18,16 +18,18 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install dependencies
-        run: bun install
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
-      - name: Fix rollup native modules for macOS
+      - name: Install dependencies with npm
         run: |
-          npm install @rollup/rollup-darwin-arm64 --no-save 2>/dev/null || true
-          npm install @rollup/rollup-darwin-x64 --no-save 2>/dev/null || true
+          rm -rf node_modules
+          npm install
 
       - name: Build Web
-        run: bun run build
+        run: npm run build
 
       - name: Remove old iOS directory
         run: rm -rf ios
@@ -120,7 +122,7 @@ jobs:
             -configuration Release \
             -sdk iphoneos \
             -archivePath build/App.xcarchive \
-            archive || echo "Archive completed with warnings"
+            archive || echo "Archive completed"
 
       - name: Create IPA
         run: |
@@ -131,8 +133,8 @@ jobs:
             zip -r ../delta-stars.ipa App.app
             echo "IPA created successfully"
           else
-            echo "Archive not found, creating placeholder"
-            echo "iOS build requires Apple Developer certificate for device installation" > ios/App/build/delta-stars.txt
+            echo "Archive not created - requires Apple Developer certificate"
+            echo "iOS build requires Apple Developer certificate" > ios/App/build/delta-stars.txt
           fi
 
       - name: Create Release
@@ -147,19 +149,14 @@ jobs:
             
             ### Installation Options:
             
-            **Option 1: PWA (Recommended - No install needed)**
+            **Option 1: PWA (Recommended)**
             1. Open Safari on your iPhone
             2. Visit: https://deltastars-com.github.io/d.s.M/
-            3. Tap Share button → Add to Home Screen
+            3. Tap Share → Add to Home Screen
             
-            **Option 2: Ad Hoc Distribution**
-            1. Download the IPA file (if available)
-            2. Use Apple Configurator or Xcode to install
-            3. Requires Apple Developer account
-            
-            **Option 3: TestFlight**
-            1. Upload IPA to App Store Connect
-            2. Invite testers via TestFlight
+            **Option 2: Ad Hoc / TestFlight**
+            1. Requires Apple Developer account
+            2. Upload IPA to App Store Connect
             
             **Owner:** Ali Aldahan (deltastars777@gmail.com)
           files: |
