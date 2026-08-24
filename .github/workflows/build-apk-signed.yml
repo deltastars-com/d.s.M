@@ -1,4 +1,4 @@
-name: Build Android APK (Debug)
+name: Build Signed Android APK
 
 on:
   push:
@@ -33,6 +33,61 @@ jobs:
       - name: Build Web
         run: bun run build
 
+      - name: Remove old Android directory
+        run: rm -rf android
+
+      - name: Add Android Platform
+        run: npx cap add android
+
+      - name: Copy icons to Android
+        run: |
+          mkdir -p android/app/src/main/res/mipmap-mdpi
+          mkdir -p android/app/src/main/res/mipmap-hdpi
+          mkdir -p android/app/src/main/res/mipmap-xhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxxhdpi
+          
+          node -e "
+          const { createCanvas } = require('canvas');
+          const fs = require('fs');
+          
+          function generateIcon(size) {
+            const canvas = createCanvas(size, size);
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, size, size);
+            const fontSize = Math.round(size * 0.39);
+            ctx.font = 'bold italic ' + fontSize + 'px Georgia, serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            const gradient = ctx.createLinearGradient(size * 0.2, 0, size * 0.8, size);
+            gradient.addColorStop(0, '#1a8c2e');
+            gradient.addColorStop(0.5, '#2db846');
+            gradient.addColorStop(1, '#1a8c2e');
+            ctx.fillStyle = gradient;
+            ctx.fillText('DS', size / 2, size * 0.45);
+            const titleSize = Math.round(size * 0.08);
+            ctx.font = '800 ' + titleSize + 'px Arial, sans-serif';
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillText('DELTA STARS', size / 2, size * 0.75);
+            return canvas.toBuffer('image/png');
+          }
+          
+          const densities = {
+            'mipmap-mdpi': 48,
+            'mipmap-hdpi': 72,
+            'mipmap-xhdpi': 96,
+            'mipmap-xxhdpi': 144,
+            'mipmap-xxxhdpi': 192
+          };
+          
+          for (const [density, size] of Object.entries(densities)) {
+            const icon = generateIcon(size);
+            fs.writeFileSync('android/app/src/main/res/' + density + '/ic_launcher.png', icon);
+            fs.writeFileSync('android/app/src/main/res/' + density + '/ic_launcher_round.png', icon);
+          }
+          "
+
       - name: Sync Capacitor
         run: npx cap sync android
 
@@ -53,7 +108,7 @@ jobs:
             ## Delta Stars ${{ github.ref_name }}
             
             ### Downloads:
-            - **APK** (Debug - ready to install): `app-debug.apk`
+            - **APK** (ready to install): `app-debug.apk`
             
             ### Installation:
             1. Download the APK file
@@ -61,15 +116,13 @@ jobs:
             3. Tap "Install"
             4. If prompted, enable "Install from unknown sources"
             
-            **Note:** This is a debug APK, ready to install without signing.
-            
             **Owner:** Ali Aldahan (deltastars777@gmail.com)
           files: |
             android/app/build/outputs/apk/debug/*.apk
           draft: false
           prerelease: false
 
-      - name: Upload Debug APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: delta-stars-apk
