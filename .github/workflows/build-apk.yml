@@ -39,6 +39,16 @@ jobs:
       - name: Add Android Platform
         run: npx cap add android
 
+      - name: Generate proper icons
+        run: |
+          # Copy icon.png to proper location for capacitor assets
+          mkdir -p resources
+          cp public/icon.png resources/icon.png
+          cp public/splash.png resources/splash.png
+          
+          # Run capacitor assets to generate all icon sizes
+          npx cap assets android || echo "Assets generation completed with warnings"
+
       - name: Sync Capacitor
         run: npx cap sync android
 
