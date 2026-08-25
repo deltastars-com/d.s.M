@@ -33,16 +33,142 @@ jobs:
       - name: Build Web
         run: bun run build
 
-      - name: Remove old Android directory
-        run: rm -rf android
+      - name: Setup Android project
+        run: |
+          # Remove old android directory
+          rm -rf android
+          
+          # Create Android project structure manually
+          mkdir -p android/app/src/main/java/com/deltastars/app
+          mkdir -p android/app/src/main/res/values
+          mkdir -p android/app/src/main/res/xml
+          mkdir -p android/app/src/main/res/drawable
+          mkdir -p android/gradle/wrapper
+          
+          # Create AndroidManifest.xml
+          cat > android/app/src/main/AndroidManifest.xml << 'MANIFEST'
+          <?xml version="1.0" encoding="utf-8"?>
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+              package="com.deltastars.app">
+              <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+              <application
+                  android:allowBackup="true"
+                  android:icon="@mipmap/ic_launcher"
+                  android:label="نجوم دلتा"
+                  android:roundIcon="@mipmap/ic_launcher_round"
+                  android:supportsRtl="true"
+                  android:theme="@style/AppTheme">
+                  <activity
+                      android:name=".MainActivity"
+                      android:exported="true"
+                      android:configChanges="orientation|keyboardHidden|keyboard|screenSize"
+                      android:launchMode="singleTask"
+                      android:windowSoftInputMode="adjustResize">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity>
+              </application>
+          </manifest>
+          MANIFEST
+          
+          # Create MainActivity.java
+          cat > android/app/src/main/java/com/deltastars/app/MainActivity.java << 'JAVA'
+          package com.deltastars.app;
+          import android.os.Bundle;
+          import com.getcapacitor.BridgeActivity;
+          public class MainActivity extends BridgeActivity {
+              @Override
+              public void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+              }
+          }
+          JAVA
+          
+          # Create build.gradle (app)
+          cat > android/app/build.gradle << 'GRADLE'
+          plugins {
+              id 'com.android.application'
+          }
+          android {
+              namespace 'com.deltastars.app'
+              compileSdk 34
+              defaultConfig {
+                  applicationId "com.deltastars.app"
+                  minSdk 22
+                  targetSdk 34
+                  versionCode 326
+                  versionName "3.2.6"
+              }
+              buildTypes {
+                  release {
+                      minifyEnabled false
+                  }
+                  debug {
+                      minifyEnabled false
+                  }
+              }
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
+              }
+          }
+          dependencies {
+              implementation 'androidx.appcompat:appcompat:1.6.1'
+              implementation 'androidx.core:core:1.12.0'
+              implementation 'com.google.android.material:material:1.11.0'
+              implementation 'androidx.webkit:webkit:1.9.0'
+          }
+          GRADLE
+          
+          # Create build.gradle (project)
+          cat > android/build.gradle << 'GRADLE'
+          buildscript {
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+              dependencies {
+                  classpath 'com.android.tools.build:gradle:8.2.0'
+              }
+          }
+          allprojects {
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          GRADLE
+          
+          # Create settings.gradle
+          cat > android/settings.gradle << 'GRADLE'
+          include ':app'
+          GRADLE
+          
+          # Create gradle.properties
+          cat > android/gradle.properties << 'PROPS'
+          org.gradle.jvmargs=-Xmx2048m
+          android.useAndroidX=true
+          PROPS
+          
+          # Copy gradle wrapper
+          curl -sL "https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradlew" -o android/gradlew
+          chmod +x android/gradlew
+          mkdir -p android/gradle/wrapper
+          curl -sL "https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradle/wrapper/gradle-wrapper.jar" -o android/gradle/wrapper/gradle-wrapper.jar
+          cat > android/gradle/wrapper/gradle-wrapper.properties << 'WRAPPER'
+          distributionBase=GRADLE_USER_HOME
+          distributionPath=wrapper/dists
+          distributionUrl=https\://services.gradle.org/distributions/gradle-8.4-bin.zip
+          zipStoreBase=GRADLE_USER_HOME
+          zipStorePath=wrapper/dists
+          WRAPPER
+          
+          echo "Android project structure created!"
 
-      - name: Add Android Platform
-        run: npx cap add android
-
-      - name: Copy web assets only (skip sync to preserve icons)
-        run: npx cap copy android
-
-      - name: Generate icons in mipmap directories
+      - name: Generate icons
         run: |
           node -e "
           const sharp = require('sharp');
@@ -60,8 +186,8 @@ jobs:
           async function generate() {
             for (const [density, size] of Object.entries(densities)) {
               const dir = 'android/app/src/main/res/' + density;
+              fs.mkdirSync(dir, { recursive: true });
               
-              // Generate icon
               await sharp(svg).resize(size, size).png().toFile(dir + '/ic_launcher.png');
               await sharp(svg).resize(size, size).png().toFile(dir + '/ic_launcher_round.png');
               
@@ -70,12 +196,23 @@ jobs:
             }
           }
           
-          generate().then(() => console.log('Done!'));
+          generate().then(() => console.log('Icons generated!'));
           "
+
+      - name: Copy web assets
+        run: |
+          # Create assets directory
+          mkdir -p android/app/src/main/assets
+          
+          # Copy built web files
+          cp -r dist/* android/app/src/main/assets/
+          
+          echo "Web assets copied!"
+          ls -la android/app/src/main/assets/
 
       - name: Verify icons
         run: |
-          echo "=== Icon sizes ==="
+          echo "=== Icons ==="
           ls -la android/app/src/main/res/mipmap-*/ic_launcher.png
 
       - name: Build Debug APK
